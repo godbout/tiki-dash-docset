@@ -54,6 +54,7 @@ class Tiki extends BaseDocset
             '/LIST',
             '/Module-',
             '/Plugin[^-]',
+            '/Tablesorter',
             '-Field(s)?(\?structure=HomePage\+UserGuide)?$',
             'Tiki_org_family',
             '[^:=]Wiki-Syntax'
