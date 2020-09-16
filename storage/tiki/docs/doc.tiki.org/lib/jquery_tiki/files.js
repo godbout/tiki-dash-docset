@@ -106,10 +106,11 @@
 			progressBar = input.progress,
 			ticket = input.ticket,
 			fileList = input.list,
-			$modal = input.form.parents(".modal-dialog:first");
+			$container = input.form,	// sometimes a div when inline
+			$modal = $container.parents(".modal-dialog:first");
 
 		if (! $modal.length) {
-			$modal = input.form;
+			$modal = $container;
 		}
 
 		var uploadUrl = $.service('file', 'upload');
@@ -162,13 +163,18 @@
 							progressBar.updateSegment(k, 0, 0);
 							fileList.addError(file, errorThrown);
 						},
-						complete: function (data) {
+						complete: function (data, textStatus) {
 							$(window).dequeue('process-upload');
-							ticket = data.responseJSON.ticket;
-							// for modal
-							$('form.file-uploader-result input[name=ticket]').val(ticket);
-							// for both (form when in modal, div when inline)
-							$('.file-uploader').data('ticket', ticket);
+
+							if (data.responseJSON) {
+								ticket = data.responseJSON.ticket;
+								// for modal
+								$('form.file-uploader-result input[name=ticket]').val(ticket);
+								// for both (form when in modal, div when inline)
+								$container.data('ticket', ticket);
+							} else {
+								alert(tr("There was an error: " + textStatus));
+							}
 
 							$modal.tikiModal();
 						}
@@ -275,7 +281,7 @@
 	});
 
 	function doUpload($form, files) {
-		var progress, list;
+		var progress, list, title = "";
 		
 		progress = new ProgressBar({
 			progress: function (current, total) {
@@ -306,10 +312,14 @@
 
 		list.clearErrors();
 
+		if ($form.find('.custom-file-title-input').length) {
+			title = $form.find('.custom-file-title-input').val();
+		}
+
 		handleFiles({
 			accept: $form.find(':file').attr('accept'),
 			galleryId: $form.data('gallery-id'),
-			title: $form.find('.custom-file-title-input').val(),
+			title: title,
 			ticket: $form.data('ticket'),
 			image_max_size_x:$form.data('image_max_size_x'),
 			image_max_size_y:$form.data('image_max_size_y'),
@@ -361,7 +371,13 @@
 				return false;
 			}
 
-			doUpload($form, this.files);
+			let $inlineDiv = $(this).parents(".file-uploader.inline");
+
+			if ($inlineDiv.length) {
+				doUpload($inlineDiv, this.files);
+			} else {
+				doUpload($form, this.files);
+			}
 
 			$(this).val('');
 			$clone = $(this).clone(true);

@@ -51,6 +51,7 @@ class Tiki extends BaseDocset
             '\.svg',
             '\.webmanifest',
             '/display',
+            '/Faker',
             '/LIST',
             '/Module-',
             '/Plugin[^-]',
@@ -92,6 +93,7 @@ class Tiki extends BaseDocset
         $entries = $entries->merge($this->moduleEntries($crawler, $file));
         $entries = $entries->merge($this->fieldEntries($crawler, $file));
         $entries = $entries->merge($this->styleEntries($crawler, $file));
+        $entries = $entries->merge($this->componentEntries($crawler, $file));
 
         return $entries;
     }
@@ -164,6 +166,25 @@ class Tiki extends BaseDocset
                 $entries->push([
                         'name' => $node->text(),
                         'type' => 'Style',
+                        'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
+                    ]);
+            });
+        }
+
+        return $entries;
+    }
+
+    protected function componentEntries(HtmlPageCrawler $crawler, string $file)
+    {
+        $entries = collect();
+
+        if (preg_match('/(Faker|TableSorter)/i', $file)) {
+            $path = $crawler->filter('link[rel=canonical]')->attr('href');
+
+            $crawler->filter('#page-data > h1:first-of-type')->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
+                $entries->push([
+                        'name' => $node->text(),
+                        'type' => 'Component',
                         'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
                     ]);
             });

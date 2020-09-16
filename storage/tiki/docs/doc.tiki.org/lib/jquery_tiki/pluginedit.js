@@ -3,7 +3,7 @@
  *
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
- * $Id: pluginedit.js 75189 2019-12-16 17:01:23Z jonnybradley $
+ * $Id: pluginedit.js 76812 2020-07-28 17:36:18Z jonnybradley $
  *
  * Handles wiki plugin edit forms
  */
@@ -152,11 +152,9 @@
 			}
 		};
 
-		$modal.on("tiki.modal.redraw", function () {
+		$modal.one("tiki.modal.redraw", function () {
 			prepareModal();
-		});
-
-		$modal
+		})
 			.find(".modal-content")
 			.load(url, function () {
 				if ($modal.is(":visible")) {
@@ -274,7 +272,7 @@
 				if (bodyContent) {
 					blob = '{' + type.toUpperCase() + '(' + params.join(' ') + ')}' + bodyContent + '{' + type.toUpperCase() + '}';
 				} else {
-					blob = '{' + type.toLowerCase() + ' ' + params.join(' ') + '}';
+					blob = '{' + type.toLowerCase() + (params.length ? ' ' : '') + params.join(' ') + '}';
 				}
 
 				insertAt(area_id, blob, false, false, replaceText);

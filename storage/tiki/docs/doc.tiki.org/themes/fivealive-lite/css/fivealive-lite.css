@@ -1,4 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Lato");
+@import url("https://fonts.googleapis.com/css?family=Lato");
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -7191,18 +7191,20 @@ label a:hover {
 .nav-tabs .nav-item {
   margin-right: 1px; }
 
-table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerUnSorted:not(.sorter-false) {
-  background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAAP///////yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==); }
-table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerAsc {
-  background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAAP///////yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
-  background-color: rgba(13, 13, 13, 0); }
-table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerDesc {
-  background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAAP///////yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
-  background-color: rgba(13, 13, 13, 0); }
+table.tablesorter thead tr.tablesorter-headerRow {
+  background-color: #fff; }
+  table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerUnSorted:not(.sorter-false) {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==); }
+  table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerAsc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+    background-color: #f7f7f7; }
+  table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerDesc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+    background-color: #f7f7f7; }
 table.tablesorter thead tr.tablesorter-filter-row {
-  background: #e9ecef; }
+  background-color: #fff; }
   table.tablesorter thead tr.tablesorter-filter-row td input.tablesorter-filter, table.tablesorter thead tr.tablesorter-filter-row td input.dateFrom, table.tablesorter thead tr.tablesorter-filter-row td input.dateTo {
-    background-color: rgba(13, 13, 13, 0);
+    background-color: #f7f7f7;
     color: #343a40; }
 
 div.tablesorter-resizable-container {
@@ -7352,11 +7354,6 @@ div.ts-wrapperdiv div.ts-pager {
   div.ts-wrapperdiv div.ts-pager .right-margin {
     vertical-align: bottom;
     margin-right: 4px; }
-
-table.tablesorter thead tr.tablesorter-filter-row td input.tablesorter-filter, table.tablesorter thead tr.tablesorter-filter-row td input.dateFrom, table.tablesorter thead tr.tablesorter-filter-row td input.dateTo {
-  color: #495057;
-  background: #fff;
-  border: #ced4da; }
 
 .tiki .pvtUi {
   color: #343a40; }

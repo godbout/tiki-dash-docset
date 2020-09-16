@@ -2,7 +2,7 @@
 // 
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-// $Id: tiki-trackers.js 76379 2020-05-20 15:46:08Z jonnybradley $
+// $Id: tiki-trackers.js 77023 2020-08-31 14:20:03Z kroky6 $
 (function ($) {
 
 	$.fn = $.extend($.fn, {
@@ -124,6 +124,9 @@
 						));
 						if (data.types[field.type]) {
 							$row.append($('<td/>').text(data.types[field.type].name));
+							if (field.options_map.mirrorField) {
+								$row.find('td:last').append($('<div class="small">').text(tr('Mirror field')+': '+field.options_map.mirrorField));
+							}
 
 							var addCheckbox = function (name, title) {
 								$row.append($('<td class="checkbox-cell"/>').append(
