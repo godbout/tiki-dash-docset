@@ -1,6 +1,6 @@
 /* global $ */
 
-// $Id: tiki-jquery.js 76357 2020-05-18 00:08:29Z lindonb $
+// $Id: tiki-jquery.js 77079 2020-09-10 17:50:45Z jonnybradley $
 // JavaScript glue for jQuery in Tiki
 //
 // Tiki 6 - $ is now initialised in jquery.js
@@ -272,7 +272,7 @@ $.fn.tiki_popover = function () {
 		myDefaultWhiteList.button = ["type", "disabled", "name", "value", "onclick"];
 		myDefaultWhiteList.time = ["datetime"];	// for timeago
 		myDefaultWhiteList.a = ["target", "href", "title", "rel", "data-toggle", "data-backdrop",
-								"data-target", "onclick"];	// data items for smarty_function_bootstrap_modal
+								"data-target", "data-size", "onclick"];	// data items for smarty_function_bootstrap_modal
 	}
 
 	/*
@@ -573,9 +573,10 @@ $(function() { // JQuery's DOM is ready event - before onload
 		// now, first let suppose that we want to display images in ColorBox by default:
 
 		// this matches data-box attributes containing type=img or no type= specified
-		$(this).find("a[data-box*='box'][data-box*='type=img'], a[data-box*='box'][data-box!='type=']").colorbox({
+		$(this).find("a[data-box*='box'][data-box*='type=img'], a[data-box*='box'][data-box!='type=']:not([data-is-text])").colorbox({
 			photo: true
 		});
+
 		// data-box attributes containing slideshow (this one must be without #col1)
 		$(this).find("a[data-box*='box'][data-box*='slideshow']").colorbox({
 			photo: true,
@@ -615,6 +616,31 @@ $(function() { // JQuery's DOM is ready event - before onload
 				return $("#cb_swf_player");
 			}
 		});
+
+		// data-box attributes containing type=video
+		$(this).find("#col1 a[data-box*='box'][data-box*='type=video']").colorbox({
+			iframe: true,
+			fastIframe: false,
+			height:"90%",
+			width:"90%",
+			html: function() {
+				return '<video controls autoplay>' +
+					'<source src="' + $(this).attr('href') + '">' +
+					+ 'Your browser does not support the video tag.' +
+					'</video>';
+			},
+			onComplete : function() {
+				let video = $('#colorbox iframe').contents().find('video');
+
+				setTimeout(function() {
+					$(this).colorbox.resize({
+						innerHeight : video.height() + 'px',
+						innerWidth : video.width() + 'px'
+					});
+				}, 100);
+			}
+		});
+
 		// data-box attributes with type=iframe (if someone needs to override anything above)
 		$(this).find("#col1 a[data-box*='box'][data-box*='type=iframe']").colorbox({
 			iframe: true
@@ -755,12 +781,12 @@ $(function() { // JQuery's DOM is ready event - before onload
 	if (jqueryTiki.numericFieldScroll === "none" || jqueryTiki.numericFieldScroll === null){
 		// disable mousewheel on a input number field when in focus
 		// (to prevent  browsers change the value when scrolling)
-		$('form').on('focus', 'input[type=number]', function (e) {
+		$(document).on('focus', 'input[type=number]', function (e) {
 			$(this).on('wheel.disableScroll', function (e) {
 				e.preventDefault()
 			})
 		});
-		$('form').on('blur', 'input[type=number]', function (e) {
+		$(document).on('blur', 'input[type=number]', function (e) {
 			$(this).off('wheel.disableScroll')
 		});
 	}
@@ -1737,6 +1763,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 				$.post($(current).attr('action'), $(current).serialize(), function (data, st) {
 					$(current).tikiModal();
 					if (data.threadId) {
+						let threadId = data.threadId;
 						$(current).closest('.comment-container').reload();
 						$('span.count_comments').each(function () {
 
@@ -1744,15 +1771,17 @@ $.fn.tiki = function(func, type, options, excludepage) {
 								count = parseInt($(this).text());
 
 							if (action) {
+								//noinspection FallThroughInSwitchStatementJS
 								switch (action[1]) {
-									case "post":
-										count++;
-										break;
 									case "remove":
 										count--;
 										break;
+									case "post":
+										count++;
+										// fall through to adjust threadId if necessary
 									case "edit":
 									case "moderate":
+										location.hash = location.hash.replace(/threadId=\d+/, "threadId=" + threadId);
 										break;
 								}
 								$(this).text(count);
@@ -2782,7 +2811,8 @@ $.fn.tiki = function(func, type, options, excludepage) {
 	}
 
 	//	copy tracker action column to 1st row if table has horizontal scrolling
-	$('.table-responsive:not(.article-types)').each(function () {
+	//  exclude tables where tablesorter is being applied
+	$('.table-responsive:not(.article-types):not(.ts-wrapperdiv)').each(function () {
 		var table = $(this);
 		// mobile friendly tables
 		if (table.find('table:not(.tablesorter) tbody tr').width() - 10 > table.width()) {

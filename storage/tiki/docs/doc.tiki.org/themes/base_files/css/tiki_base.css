@@ -1,4 +1,4 @@
-/* $Id: tiki_base.css 76287 2020-05-01 12:36:51Z xorti $
+/* $Id: tiki_base.css 77056 2020-09-03 22:10:56Z lindonb $
  This Tiki Wiki CMS Groupware file contains global design
  and layout properties. */
 .topbar {
@@ -1677,14 +1677,20 @@ a.cke_button span.cke_icon {
 h3.card-title {
   display: block;
   padding-top: 0;
-  position: relative;
   margin: 0; }
 
-.moduleflip, .moduleflip img {
+.moduleflip {
   display: none;
   position: absolute;
-  right: 1%;
-  top: 0; }
+  right: 0.2rem;
+  top: 0.2rem;
+  width: 5rem; }
+
+.moduleflip > * {
+  padding: 0 0.2rem; }
+
+.moduleflip > form .close {
+  font-size: 1.3rem; }
 
 .flipmodtitle.close {
   line-height: 0.75; }
@@ -3962,7 +3968,21 @@ body.fullscreen.tiki.navbar-padding {
   .hide_zone_left.hide_zone_right #col1.col-lg-8, .hide_zone_left.hide_zone_right #col1.col-lg-9 {
     width: 100%;
     flex: 0 0 100%;
-    max-width: 100%; } }
+    max-width: 100%; }
+  .tiki-admin_modules.hide_zone_left #col2 {
+    display: block;
+    opacity: 0.6; }
+  .tiki-admin_modules.hide_zone_right #col3 {
+    display: block;
+    opacity: 0.6; }
+  .tiki-admin_modules.hide_zone_left #col1.col-lg-8, .tiki-admin_modules.hide_zone_right #col1.col-lg-8 {
+    width: 66.6666666667%;
+    flex: 0 0 66.6666666667%;
+    max-width: 66.6666666667%; }
+  .tiki-admin_modules.hide_zone_left #col1.col-lg-9, .tiki-admin_modules.hide_zone_right #col1.col-lg-9 {
+    width: 75%;
+    flex: 0 0 75%;
+    max-width: 75%; } }
 
 @media (max-width: 767.98px) {
   #col1 {
@@ -4156,23 +4176,20 @@ div.ts-wrapperdiv div.ts-pager {
     vertical-align: bottom;
     margin-right: 4px; }
 
-table.tablesorter thead tr.tablesorter-filter-row td input.tablesorter-filter, table.tablesorter thead tr.tablesorter-filter-row td input.dateFrom, table.tablesorter thead tr.tablesorter-filter-row td input.dateTo {
-  color: #495057;
-  background: #fff;
-  border: #ced4da; }
-
-table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerUnSorted:not(.sorter-false) {
-  background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAAP///////yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==); }
-table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerAsc {
-  background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAAP///////yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
-  background-color: rgba(13, 13, 13, 0); }
-table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerDesc {
-  background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAAP///////yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
-  background-color: rgba(13, 13, 13, 0); }
+table.tablesorter thead tr.tablesorter-headerRow {
+  background-color: #fff; }
+  table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerUnSorted:not(.sorter-false) {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==); }
+  table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerAsc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+    background-color: #f7f7f7; }
+  table.tablesorter thead tr.tablesorter-headerRow th.tablesorter-headerDesc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+    background-color: #f7f7f7; }
 table.tablesorter thead tr.tablesorter-filter-row {
-  background: #e9ecef; }
+  background-color: #fff; }
   table.tablesorter thead tr.tablesorter-filter-row td input.tablesorter-filter, table.tablesorter thead tr.tablesorter-filter-row td input.dateFrom, table.tablesorter thead tr.tablesorter-filter-row td input.dateTo {
-    background-color: rgba(13, 13, 13, 0);
+    background-color: #f7f7f7;
     color: #212529; }
 
 @media print {

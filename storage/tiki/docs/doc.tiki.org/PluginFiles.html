@@ -310,7 +310,7 @@ textarea, .CodeMirror {
 					<div class="fixed-topbar"></div>
 				<div class="container container-std middle" id="middle">
 						<div class="row topbar mx-0 navbar-dark bg-dark " id="topbar">
-				<div class="content clearfix modules topbar_modules d-flex justify-content-between w-100" id="topbar_modules">
+				<div class="modules topbar_modules d-flex justify-content-between w-100" id="topbar_modules">
 	
 
 
@@ -361,7 +361,7 @@ textarea, .CodeMirror {
 						</div>
 									<div class="d-flex flex-row flex-wrap w-100">
 					<div class="col col1 col-md-12 col-lg-9 order-md-1 order-lg-2 pb-4" id="col1">
-													<div class="content clearfix modules" id="pagetop_modules">
+													<div class="modules" id="pagetop_modules">
 	
  <div class="container"><div id="module_70" style="" class="module col-md-4 offset-md-4 mb-3 box-search"><div id="mod-searchpagetop1"><form id="search-module-form1" method="get" action="https://doc.tiki.org/tiki-searchindex.php" onsubmit="return submitSearch1()" style="position: relative;"><div class="input-group"><input style="min-width: 4rem;" placeholder="Find" class="form-control my-1" id="search_mod_input_1" name="filter~content" type="text" accesskey="s" value=""><label class="sr-only" for="search_mod_input_1">Find</label><div class="input-group-append"><button type="submit" class="btn btn-info my-1 search_mod_magnifier"><span class="icon icon-search fas fa-search " ></span></button></div></div><div class="btn-group search_mod_buttons box" style="display: none; position: absolute; right: 0; z-index: 3; white-space: nowrap;"><input type = "submit" class="btn btn-info btn-sm tips btn-secondary button_default bottom" name = "search" value = "Search" title="Search|Search for text throughout the site." data-placement="bottom" onclick = "$('#search-module-form1').attr('action', 'tiki-searchindex.php').attr('page_selected','');" /><input type="hidden" name="exact_match" value="" /><input type = "submit" class="btn btn-info btn-sm tips bottom" name = "go" value = "Go" title="Go|Go directly to a page, or search in page titles if exact match is not found." data-placement="bottom" onclick = "$('#search-module-form1').attr('action', 'tiki-listpages.php').attr('page_selected',''); $('#search-module-form1 input[name=\'filter~content\']').attr('name', 'find'); " ></div></form></div></div></div> 
 
@@ -802,7 +802,7 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=id_asc"  style='text-decoration:none;'>																	ID
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=id_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	ID
 															</a>						</th>
 																									
 				
@@ -811,11 +811,11 @@ textarea, .CodeMirror {
 																			
 					
 																	<th>
-							<a  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=filename_asc"  style='text-decoration:none;'>								Filename
+							<a  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=filename_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>								Filename
 							</a>						</th>
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=name_asc"  style='text-decoration:none;'>																	Name
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=name_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Name
 															</a>						</th>
 																									
 				
@@ -825,29 +825,17 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=description_asc"  style='text-decoration:none;'>																	Description
-															</a>						</th>
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_desc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Description
+															 <span class="icon icon-sort-up fas fa-sort-up "   ></span></a>						</th>
 																									
 				
 																			
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=size_asc"  style='text-decoration:none;'>																	Size
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=size_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Size
 															</a>						</th>
 																									
-				
-																				
-				
-																			
-					
-					
-																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=lastModif_asc"  style='text-decoration:none;'>																	Last modified
-															</a>						</th>
-																									
-				
-																				
 				
 																				
 				
@@ -855,7 +843,19 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode1=last_user_asc"  style='text-decoration:none;'>																	Last modified by
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=lastModif_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Last modified
+															</a>						</th>
+																									
+				
+																				
+				
+																				
+				
+																			
+					
+					
+																	<th>
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=last_user_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Last modified by
 															</a>						</th>
 																									
 				
@@ -1176,36 +1176,36 @@ textarea, .CodeMirror {
 						
 						
 																																															
-																					<td><a class='fgalname' 							href="https://doc.tiki.org/dl122" title="Download" data-toggle="popover" data-container="body" data-trigger="hover&#x20;focus" data-content="&lt;div&#x20;class&#x3D;&#x27;opaque&#x27;&gt;&lt;img&#x20;src&#x3D;&quot;thumbnail122&quot;&gt;&lt;&#x2F;div&gt;" data-html="1"  data-delay='{"show":"0","hide":"100"}'						>122</a></td>
+																					<td><a class='fgalname' 							href="https://doc.tiki.org/dl120" title="Download" data-toggle="popover" data-container="body" data-trigger="hover&#x20;focus" data-content="&lt;div&#x20;class&#x3D;&#x27;opaque&#x27;&gt;&lt;img&#x20;src&#x3D;&quot;thumbnail120&quot;&gt;&lt;&#x2F;div&gt;" data-html="1"  data-delay='{"show":"0","hide":"100"}'						>120</a></td>
 																																											
 																														
 																														
 						
 						
 																																																						<td>
-								<a class='fgalname fileLink' fileId='122' type='image/png' 							href="https://doc.tiki.org/dl122" title="Download" data-toggle="popover" data-container="body" data-trigger="hover&#x20;focus" data-content="&lt;div&#x20;class&#x3D;&#x27;opaque&#x27;&gt;&lt;img&#x20;src&#x3D;&quot;thumbnail122&quot;&gt;&lt;&#x2F;div&gt;" data-html="1"  data-delay='{"show":"0","hide":"100"}'						>Picture 74.png</a>							</td>
+								<a class='fgalname fileLink' fileId='120' type='image/png' 							href="https://doc.tiki.org/dl120" title="Download" data-toggle="popover" data-container="body" data-trigger="hover&#x20;focus" data-content="&lt;div&#x20;class&#x3D;&#x27;opaque&#x27;&gt;&lt;img&#x20;src&#x3D;&quot;thumbnail120&quot;&gt;&lt;&#x2F;div&gt;" data-html="1"  data-delay='{"show":"0","hide":"100"}'						>Picture 71.png</a>							</td>
 						
-																					<td><a class='fgalname' 							href="https://doc.tiki.org/dl122" title="Download" data-toggle="popover" data-container="body" data-trigger="hover&#x20;focus" data-content="&lt;div&#x20;class&#x3D;&#x27;opaque&#x27;&gt;&lt;img&#x20;src&#x3D;&quot;thumbnail122&quot;&gt;&lt;&#x2F;div&gt;" data-html="1"  data-delay='{"show":"0","hide":"100"}'						></a></td>
+																					<td><a class='fgalname' 							href="https://doc.tiki.org/dl120" title="Download" data-toggle="popover" data-container="body" data-trigger="hover&#x20;focus" data-content="&lt;div&#x20;class&#x3D;&#x27;opaque&#x27;&gt;&lt;img&#x20;src&#x3D;&quot;thumbnail120&quot;&gt;&lt;&#x2F;div&gt;" data-html="1"  data-delay='{"show":"0","hide":"100"}'						>Create a plugin alias</a></td>
 																																											
 																														
 																														
 						
 						
 																									
-																					<td>Simple invocation, just using one named parameter</td>
+																					<td></td>
 																																											
 																														
 						
 						
 																									
-																					<td>32.38&nbsp;KB</td>
+																					<td>81.39&nbsp;KB</td>
 																																											
 																														
 																														
 						
 						
 																																																									
-																					<td><time class="timeago" datetime="2009-06-16T21:10:41+00:00">Tue 16 Jun, 2009</time></td>
+																					<td><time class="timeago" datetime="2009-06-16T21:02:08+00:00">Tue 16 Jun, 2009</time></td>
 																																											
 																														
 																														
@@ -1256,7 +1256,7 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=id_asc"  style='text-decoration:none;'>																	ID
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=id_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	ID
 															</a>						</th>
 																									
 				
@@ -1265,11 +1265,11 @@ textarea, .CodeMirror {
 																			
 					
 																	<th>
-							<a  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=filename_asc"  style='text-decoration:none;'>								Filename
+							<a  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=filename_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>								Filename
 							</a>						</th>
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=name_asc"  style='text-decoration:none;'>																	Name
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=name_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Name
 															</a>						</th>
 																									
 				
@@ -1279,7 +1279,7 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=description_asc"  style='text-decoration:none;'>																	Description
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=description_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Description
 															</a>						</th>
 																									
 				
@@ -1287,7 +1287,7 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=size_asc"  style='text-decoration:none;'>																	Size
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=size_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Size
 															</a>						</th>
 																									
 				
@@ -1297,8 +1297,8 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=lastModif_asc"  style='text-decoration:none;'>																	Last modified
-															</a>						</th>
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_desc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Last modified
+															 <span class="icon icon-sort-up fas fa-sort-up "   ></span></a>						</th>
 																									
 				
 																				
@@ -1309,7 +1309,7 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode2=last_user_asc"  style='text-decoration:none;'>																	Last modified by
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=last_user_asc&amp;wp_files_sort_mode3=description_desc"  style='text-decoration:none;'>																	Last modified by
 															</a>						</th>
 																									
 				
@@ -1846,7 +1846,7 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=id_asc"  style='text-decoration:none;'>																	ID
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=id_asc"  style='text-decoration:none;'>																	ID
 															</a>						</th>
 																									
 				
@@ -1855,11 +1855,11 @@ textarea, .CodeMirror {
 																			
 					
 																	<th>
-							<a  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=filename_asc"  style='text-decoration:none;'>								Filename
+							<a  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=filename_asc"  style='text-decoration:none;'>								Filename
 							</a>						</th>
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=name_asc"  style='text-decoration:none;'>																	Name
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=name_asc"  style='text-decoration:none;'>																	Name
 															</a>						</th>
 																									
 				
@@ -1869,29 +1869,17 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=description_asc"  style='text-decoration:none;'>																	Description
-															</a>						</th>
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=description_asc"  style='text-decoration:none;'>																	Description
+															 <span class="icon icon-sort-down fas fa-sort-down "   ></span></a>						</th>
 																									
 				
 																			
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=size_asc"  style='text-decoration:none;'>																	Size
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=size_asc"  style='text-decoration:none;'>																	Size
 															</a>						</th>
 																									
-				
-																				
-				
-																			
-					
-					
-																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=lastModif_asc"  style='text-decoration:none;'>																	Last modified
-															</a>						</th>
-																									
-				
-																				
 				
 																				
 				
@@ -1899,7 +1887,19 @@ textarea, .CodeMirror {
 					
 					
 																	<th>
-							<a class="tips" title=":"  href="https://doc.tiki.org/PluginFiles?wp_files_sort_mode3=last_user_asc"  style='text-decoration:none;'>																	Last modified by
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=lastModif_asc"  style='text-decoration:none;'>																	Last modified
+															</a>						</th>
+																									
+				
+																				
+				
+																				
+				
+																			
+					
+					
+																	<th>
+							<a class="tips" title=":"  href="https://doc.tiki.org/tiki-index_raw.php?page=PluginFiles&amp;wp_files_sort_mode1=description_asc&amp;wp_files_sort_mode2=lastModif_asc&amp;wp_files_sort_mode3=last_user_asc"  style='text-decoration:none;'>																	Last modified by
 															</a>						</th>
 																									
 				
@@ -2218,7 +2218,7 @@ textarea, .CodeMirror {
 	</div>
 <div id="comment-container"></div>
 			
-													<div class="content clearfix modules mt-3" id="pagebottom_modules">
+													<div class="modules mt-3" id="pagebottom_modules">
 	
 
 
@@ -2253,7 +2253,7 @@ textarea, .CodeMirror {
 </div>
 											</div>
 					<div class="col col2 col-md-12 col-lg-3 order-sm-2 order-md-2 order-lg-1" id="col2">
-						<div class="content clearfix modules" id="left_modules">
+						<div class="modules" id="left_modules">
 	
 
 
@@ -2706,7 +2706,7 @@ textarea, .CodeMirror {
 				<a class="nav-link" href="https://doc.tiki.org/Admin-Wizard">Admin Wizard</a>
 			</li>
 								<li class="nav-item ">
-				<a class="nav-link" href="https://doc.tiki.org/Upgrade-Wizard">Upgrade Wizard</a>
+				<a class="nav-link" href="https://doc.tiki.org/Changes-Wizard">Changes Wizard</a>
 			</li>
 								<li class="nav-item ">
 				<a class="nav-link" href="https://doc.tiki.org/User-Wizard---Set-up-the-User-Details-screen">User Wizard - Set up the User Details screen</a>
@@ -3554,7 +3554,6 @@ textarea, .CodeMirror {
 
 <p></p>
 
-
 		
 														</div>
 				
@@ -3579,86 +3578,9 @@ textarea, .CodeMirror {
 			 class="clearfix card-body">
 									<ol>					<li>
 				<a class="linkmodule"
-											href="PluginTogether.html"
+											href="Faker.html"
 										
-										title=" Mon 27 Jul, 2020 13:57 GMT-0000"
-				>
-
-																																PluginTogether
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Export-Profiles"
-										
-										title=" Sun 26 Jul, 2020 18:32 GMT-0000"
-				>
-
-																																Export Profiles
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Wiki-Argument-Variables"
-										
-										title=" Sun 26 Jul, 2020 17:43 GMT-0000"
-				>
-
-																																Wiki Argument Variables
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="PluginWebservice.html"
-										
-										title=" Sun 26 Jul, 2020 16:25 GMT-0000"
-				>
-
-																																PluginWebservice
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Pretty-Tracker"
-										
-										title=" Mon 20 Jul, 2020 04:36 GMT-0000"
-				>
-
-																																Pretty Tracker
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Webservice-tracker-field"
-										
-										title=" Thu 16 Jul, 2020 18:03 GMT-0000"
-				>
-
-																																Webservice tracker field
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Changelog-1.8"
-										
-										title=" Thu 16 Jul, 2020 17:28 GMT-0000"
-				>
-
-																																Changelog 1.8
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Faker"
-										
-										title=" Thu 16 Jul, 2020 10:04 GMT-0000"
+										title=" Wed 16 Sep, 2020 11:22 GMT-0000"
 				>
 
 																																Faker
@@ -3667,23 +3589,100 @@ textarea, .CodeMirror {
 			</li>
 					<li>
 				<a class="linkmodule"
-											href="https://doc.tiki.org/Ubuntu-Install"
+											href="https://doc.tiki.org/Tiki22"
 										
-										title=" Mon 13 Jul, 2020 18:42 GMT-0000"
+										title=" Sun 13 Sep, 2020 23:15 GMT-0000"
 				>
 
-																																Ubuntu Install
+																																Tiki22
 																		
 				</a>
 			</li>
 					<li>
 				<a class="linkmodule"
-											href="PluginCustomSearch.html"
+											href="https://doc.tiki.org/Unified-Index-Comparison"
 										
-										title=" Mon 13 Jul, 2020 08:15 GMT-0000"
+										title=" Sun 13 Sep, 2020 23:14 GMT-0000"
 				>
 
-																																PluginCustomSearch
+																																Unified Index Comparison
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Tiki21"
+										
+										title=" Fri 11 Sep, 2020 11:17 GMT-0000"
+				>
+
+																																Tiki21
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Requirements"
+										
+										title=" Thu 10 Sep, 2020 05:39 GMT-0000"
+				>
+
+																																Requirements
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="PluginList-with-editable-filters.html"
+										
+										title=" Sun 06 Sep, 2020 14:59 GMT-0000"
+				>
+
+																																PluginList with editable filters
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Machine-Learning"
+										
+										title=" Sat 05 Sep, 2020 16:12 GMT-0000"
+				>
+
+																																Machine Learning
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Shared-Secret"
+										
+										title=" Sat 05 Sep, 2020 16:04 GMT-0000"
+				>
+
+																																Shared Secret
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Webmail"
+										
+										title=" Sat 05 Sep, 2020 13:35 GMT-0000"
+				>
+
+																																Webmail
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="Advanced-Wiki-Syntax-usage-examples.html"
+										
+										title=" Thu 03 Sep, 2020 11:24 GMT-0000"
+				>
+
+																																Advanced Wiki Syntax usage examples
 																		
 				</a>
 			</li>
@@ -3765,7 +3764,7 @@ textarea, .CodeMirror {
 			<div class="footer_liner">
 				<div class="container container-std">
 
-					<div class="content clearfix modules bottom_modules p-3 mx--15px" id="bottom_modules">
+					<div class="modules bottom_modules p-3 mx--15px" id="bottom_modules">
 		
 
 
@@ -3814,7 +3813,7 @@ textarea, .CodeMirror {
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Initial-Configuration" rel="external">Configuration</a>
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Features" rel="external">Features</a>
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Tutorials" rel="external">Tutorials</a>
-</li><li> <a class="wiki external" target="_blank" href="http://twbasics.keycontent.org" rel="external">Tiki for Smarties</a>
+</li><li> <a class="wiki external" target="_blank" href="http://twbasics.tikiforsmarties.com" rel="external">Tiki for Smarties</a>
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Welcome-Authors" rel="external">Become an author</a>
 </li></ul></div></div><div class="col-sm-2"><div class="card">
 <h4 class="showhide_heading" id="Development"> <a class="wiki external" target="_blank" href="http://dev.tiki.org"&nbsp;rel="external">Development</a><a href="PluginFiles.html#Development" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h4>
@@ -3929,7 +3928,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 			<div id="module_76" style=""
 				 class="module box-svnup">
 				<div id="mod-svnupbottom4">
-										<div class="cvsup">Last update from SVN (21.2vcs): Monday 27 July, 2020 09:39:36 GMT-0000- REV 76802</div>
+										<div class="cvsup">Last update from SVN (21.3vcs): Monday 14 September, 2020 17:26:23 GMT-0000- REV 77084</div>
 													
 					</div>
 </div>
@@ -3942,7 +3941,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 			<div id="module_60" style=""
 				 class="module box-loadstats">
 				<div id="mod-loadstatsbottom5">
-										<small>[ Execution time: 0.10 secs ] &nbsp; [ Memory usage: 5.95MB ] &nbsp; [ Queries: 210 in 0.04 secs ]</small>
+										<small>[ Execution time: 0.13 secs ] &nbsp; [ Memory usage: 5.77MB ] &nbsp; [ Queries: 210 in 0.07 secs ]</small>
 													
 					</div>
 </div>
@@ -3964,7 +3963,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
-				<div class="content clearfix modules d-flex flex-fill justify-content-between top_modules" id="top_modules">
+				<div class="modules d-flex flex-fill justify-content-between top_modules" id="top_modules">
 	
 
 
@@ -4021,7 +4020,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 		<form name="loginbox" class="form" id="loginbox-1" action="https://doc.tiki.org/tiki-login.php"
 				method="post" 
 						>
-		<input type="hidden" class="ticket" name="ticket" value="9hQ4qFQSfp_POzK9YbDMmD65VF_zMhRAmGhtcfMmca0" />
+		<input type="hidden" class="ticket" name="ticket" value="zA56R1HZgw2M0R-fovr1KFIpZ_RhCW1kByXqdUnHTjY" />
 		
 
 								<div class="user form-group row mx-0 clearfix">
@@ -4179,7 +4178,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 <!--//--><![CDATA[//><!--
 // js 0 
 tiki_cookie_jar=new Object();
-setCookieBrowser('javascript_enabled', '1627483208000', '', new Date(1627483208000));
+setCookieBrowser('javascript_enabled', '1631796095000', '', new Date(1631796095000));
 $.lang = 'en';
 
 // JS Object to hold prefs for jq

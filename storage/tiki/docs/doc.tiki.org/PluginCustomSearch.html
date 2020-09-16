@@ -311,7 +311,7 @@ textarea, .CodeMirror {
 					<div class="fixed-topbar"></div>
 				<div class="container container-std middle" id="middle">
 						<div class="row topbar mx-0 navbar-dark bg-dark " id="topbar">
-				<div class="content clearfix modules topbar_modules d-flex justify-content-between w-100" id="topbar_modules">
+				<div class="modules topbar_modules d-flex justify-content-between w-100" id="topbar_modules">
 	
 
 
@@ -362,7 +362,7 @@ textarea, .CodeMirror {
 						</div>
 									<div class="d-flex flex-row flex-wrap w-100">
 					<div class="col col1 col-md-12 col-lg-9 order-md-1 order-lg-2 pb-4" id="col1">
-													<div class="content clearfix modules" id="pagetop_modules">
+													<div class="modules" id="pagetop_modules">
 	
  <div class="container"><div id="module_70" style="" class="module col-md-4 offset-md-4 mb-3 box-search"><div id="mod-searchpagetop1"><form id="search-module-form1" method="get" action="https://doc.tiki.org/tiki-searchindex.php" onsubmit="return submitSearch1()" style="position: relative;"><div class="input-group"><input style="min-width: 4rem;" placeholder="Find" class="form-control my-1" id="search_mod_input_1" name="filter~content" type="text" accesskey="s" value=""><label class="sr-only" for="search_mod_input_1">Find</label><div class="input-group-append"><button type="submit" class="btn btn-info my-1 search_mod_magnifier"><span class="icon icon-search fas fa-search " ></span></button></div></div><div class="btn-group search_mod_buttons box" style="display: none; position: absolute; right: 0; z-index: 3; white-space: nowrap;"><input type = "submit" class="btn btn-info btn-sm tips btn-secondary button_default bottom" name = "search" value = "Search" title="Search|Search for text throughout the site." data-placement="bottom" onclick = "$('#search-module-form1').attr('action', 'tiki-searchindex.php').attr('page_selected','');" /><input type="hidden" name="exact_match" value="" /><input type = "submit" class="btn btn-info btn-sm tips bottom" name = "go" value = "Go" title="Go|Go directly to a page, or search in page titles if exact match is not found." data-placement="bottom" onclick = "$('#search-module-form1').attr('action', 'tiki-listpages.php').attr('page_selected',''); $('#search-module-form1 input[name=\'filter~content\']').attr('name', 'find'); " ></div></form></div></div></div> 
 
@@ -856,27 +856,35 @@ However, from <a href="https://doc.tiki.org/Tiki14" title="Tiki14" class="wiki w
 <br />This should be considered unfinished and somewhat experimental but basically works with some customisation. The three inputs are:
 </p>
 <ul><li> distance: Use a number and a unit, e.g. 1000m for one thousand metres
-</li><li> latitiude: A floating point number up between -90 and +90
+</li><li> latitude: A floating point number up between -90 and +90
 </li><li> longitude: A floating point number up between -180 and +180
 </li></ul><pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox36" >{DIV(class=&quot;row&quot;)}{distance class=&quot;form-control col-sm-4&quot;}{DIV}</pre>
 <p>
 </p>
+<h3 class="showhide_heading" id="Partial_searches"> Partial searches<a href="PluginCustomSearch.html#Partial_searches" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h3>
+<p><em>Since Tiki 22</em>
+<br />It is possible for users to enter <code>foo*</code> in a text field in order to match <code>foo</code>, <code>foobar</code>, <code>foostuff</code> but it is difficult for them  to figure out.
+<br />With the param <code>_partial</code> like this:
+</p>
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox37" >{input _field=&quot;tracker_field_peopleLastname,tracker_field_peopleFirstname&quot; _trackerId=&quot;1&quot; class=&quot;form-control&quot; placeholder=&quot;Look for names in directory&quot; _partial=&quot;y&quot; }</pre>
+<p>One offers the opportunity for users to search by only entering the first characters of a word.
+</p>
 <h3 class="showhide_heading" id="Setting_default_search_parameters_when_first_coming_to_the_page"> Setting default search parameters when first coming to the&nbsp;page<a href="PluginCustomSearch.html#Setting_default_search_parameters_when_first_coming_to_the_page" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h3>
 <p>As already mentioned above, you can use the <code>_default</code> parameter on specific fields. However, in some cases you are coming from another page where you want to pass some input from there via the query string. To do this you can pass in the query string, for example:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox37" >tiki-index.php?page=Search&amp;default[field]=value</pre>
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox38" >tiki-index.php?page=Search&amp;default[field]=value</pre>
 <p>The "field" here is the same as what you have in the <code>_field</code> attribute in your search template.
 </p>
 
 <p>You can have several search parameters in the url using &amp;.
 <br />You may also use an item link/list value (in the example below tracker_field_kind is item link) in some case.
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox38" >tiki-index.php?page=Search&amp;default[field]=value&amp;default[field]=value
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox39" >tiki-index.php?page=Search&amp;default[field]=value&amp;default[field]=value
 e.g. tiki-index.php?page=Search&amp;default[tracker_field_month]=October&amp;default[tracker_field_kind]=644</pre>
 <p>
 <br />If you have categories filters defined, you can set the defaults as follows:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox39" >tiki-index.php?page=Search&amp;defaultcat[parent]=value
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox40" >tiki-index.php?page=Search&amp;defaultcat[parent]=value
 e.g. tiki-index.php?page=Search&amp;defaultcat[5]=2,7</pre>
 <p>
 <br />The Smarty syntax is valid and can be used to solve more complex case.
@@ -886,13 +894,13 @@ e.g. tiki-index.php?page=Search&amp;defaultcat[5]=2,7</pre>
 <br /><a target="_blank" class="wiki"  href="https://www.smarty.net/docs/en/language.modifier.date.format.tpl">https://www.smarty.net/docs/en/language.modifier.date.format.tpl</a>
 </p>
 
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox40" >tiki-index.php?page=Search&amp;default[field]={smarty}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox41" >tiki-index.php?page=Search&amp;default[field]={smarty}
 e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this month&#039;|date_format:&quot;%B&quot;}</pre>
 <p>
 <br />
 <br />Note that if you are having problems using square brackets within link syntax in a wiki page, you may want to urlencode the square brackets, for example:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox41" >[tiki-index.php?page=Search&amp;defaultcat%5b7%5d=3]</pre>
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox42" >[tiki-index.php?page=Search&amp;defaultcat%5b7%5d=3]</pre>
 <p>
 </p>
 <h3 class="showhide_heading" id="Advanced_adding_of_jquery_javascript_on_AJAX_loading_of_results">Advanced adding of jquery/javascript on AJAX loading of&nbsp;results<a href="PluginCustomSearch.html#Advanced_adding_of_jquery_javascript_on_AJAX_loading_of_results" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h3>
@@ -904,7 +912,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 
 <p>Create a wiki page as follows, enclosing your javascript/jquery, and specify the wiki page name as the <code>callbackscript</code> parameter to the CUSTOMSEARCH plugin.
 </p>
-<pre class="codelisting"  data-theme="default"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox42" >{JQ()}
+<pre class="codelisting"  data-theme="default"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox43" >{JQ()}
     $(document).on(&quot;pageSearchReady&quot;, function() {
 
 		doYourStuff();
@@ -919,7 +927,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <p>
 </p>
 <h5 class="showhide_heading" id="Wiki_page_to_display_results_of_custom_search">1.1.1.1.1.  Wiki page to display results of custom&nbsp;search<a href="PluginCustomSearch.html#Wiki_page_to_display_results_of_custom_search" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h5>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox43" >{CUSTOMSEARCH(wiki=&quot;My Custom Search Tpl&quot; recalllastsearch=&quot;0&quot; searchonload=&quot;1&quot; requireinput=&quot;0&quot; searchable_only=&quot;1&quot; customsearchjs=&quot;1&quot; callbackscript=&quot;shortenDescriptions&quot;)}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox44" >{CUSTOMSEARCH(wiki=&quot;My Custom Search Tpl&quot; recalllastsearch=&quot;0&quot; searchonload=&quot;1&quot; requireinput=&quot;0&quot; searchable_only=&quot;1&quot; customsearchjs=&quot;1&quot; callbackscript=&quot;shortenDescriptions&quot;)}
 
 (the filters and output of the custom search as usual)
 
@@ -929,7 +937,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <h5 class="showhide_heading" id="Contents_of_My_Custom_Search_Tpl_">1.1.1.1.2.  Contents of "My Custom Search&nbsp;Tpl"<a href="PluginCustomSearch.html#Contents_of_My_Custom_Search_Tpl_" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h5>
 <p>The page "My Custom Search Tpl" has this type of code:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="htmlmixed"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox44" >&lt;div id=&quot;courseOverview&quot;&gt;{$row.courseDescription|truncate:30:&quot;...&quot;:false}&lt;/div&gt; &lt;a  class=&quot;readMore&quot; &gt;Read more&lt;/a&gt;
+<pre class="codelisting"  data-theme="off"  data-syntax="htmlmixed"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox45" >&lt;div id=&quot;courseOverview&quot;&gt;{$row.courseDescription|truncate:30:&quot;...&quot;:false}&lt;/div&gt; &lt;a  class=&quot;readMore&quot; &gt;Read more&lt;/a&gt;
 &lt;div id=&quot;courseOverviewFull&quot; style=&quot;display: none&quot;&gt;{$row.courseDescription}&lt;/div&gt; &lt;a  class=&quot;readLess&quot; style=&quot;display: none&quot;&gt;Read less&lt;/a&gt;</pre>
 <p>
 <br />
@@ -939,7 +947,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <p>The page shortenDescriptions:
 </p>
 
-<pre class="codelisting"  data-theme="default"  data-syntax="javascript"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox45" >{JQ()}
+<pre class="codelisting"  data-theme="default"  data-syntax="javascript"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox46" >{JQ()}
     $(document).on(&quot;pageSearchReady&quot;, function() {
 
         //using the .readMore class as a selector for the click event over it.
@@ -964,7 +972,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <h4 class="showhide_heading" id="Advanced_Pagination_in_Smarty_Template">Advanced Pagination in Smarty&nbsp;Template<a href="PluginCustomSearch.html#Advanced_Pagination_in_Smarty_Template" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h4>
 <p>Advanced pagination not using pagination="y" but instead directly creating the pagination within the Smarty template, by specifying the customsearch ID manually as follows:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox46" >{assign var=&#039;customsearchid&#039; value=&quot;xyz&quot;}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox47" >{assign var=&#039;customsearchid&#039; value=&quot;xyz&quot;}
 {pagination_links offset_jsvar=&quot;customsearch_`$customsearchid`.offset&quot; _onclick=&quot;$(&#039;#customsearch_`$customsearchid`&#039;).submit();return false;&quot; resultset=$results}{/pagination_links}</pre>
 <p>
 </p>
@@ -972,18 +980,18 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <h3 class="showhide_heading" id="Overriding_defaults_that_apply_on_arriving_at_search_page">Overriding defaults that apply on arriving at search&nbsp;page<a href="PluginCustomSearch.html#Overriding_defaults_that_apply_on_arriving_at_search_page" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h3>
 <p>The defaults can be overridden by passing into the query string these variables. For example, if you want the number of search results to show to be set to 10, you can do:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox47" >http://yoursite.tiki.org/tiki-index.php?page=MySearch&amp;maxRecords=10
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox48" >http://yoursite.tiki.org/tiki-index.php?page=MySearch&amp;maxRecords=10
 (or with SEFURL on) http://yoursite.tiki.org/MySearch?maxRecords=10</pre>
 <p>
 <br />For sort_mode, you can also set it inside your search template. Please be warned that sorting is based on string. if you are trying to sort by numbers, make sure all your numbers are of the same number of digits. Otherwise 2 will be larger than 12. The only way to get around this for now is to make sure all numbers are entered in a padded form, for example, 0012 for 12.
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox48" >{sort mode=&quot;tracker_field_18_desc&quot;}</pre>
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox49" >{sort mode=&quot;tracker_field_18_desc&quot;}</pre>
 <p>
 </p>
 <h3 class="showhide_heading" id="Changing_the_settings_after_arriving_at_the_search_page">Changing the settings after arriving at the search&nbsp;page<a href="PluginCustomSearch.html#Changing_the_settings_after_arriving_at_the_search_page" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h3>
 <p>You will need a little Jquery/javascript for this. It is possible to set the javascript variables "customsearch_&lt;id&gt;.maxRecords", "customsearch_&lt;id&gt;.sort_mode", "customsearch_&lt;id&gt;.offset" programmatically and then resubmit the form by calling the submit() event handler on the form using the jquery. For example:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox49" >( &quot;#datesort&quot; ).click(function()
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox50" >( &quot;#datesort&quot; ).click(function()
     customsearch_&lt;id&gt;.sort_mode = &quot;modification_date_desc&quot; ;
     $(&#039;#customsearch_&lt;id&gt;&#039;).submit();
     return false;
@@ -1001,13 +1009,13 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <p>Using facets with CustomSearch requires that hidden fields be added to the search form. These fields will be filled as the user selects filters. To simplify binding, make sure you set the ID explicitly.
 </p>
 
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox50" >{input _filter=&quot;content&quot; type=&quot;hidden&quot; _field=&quot;object_type&quot; id=&quot;my_object_filter&quot;}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox51" >{input _filter=&quot;content&quot; type=&quot;hidden&quot; _field=&quot;object_type&quot; id=&quot;my_object_filter&quot;}
 {input _filter=&quot;content&quot; type=&quot;hidden&quot; _field=&quot;deep_categories&quot; id=&quot;my_deep_categories&quot;}</pre>
 <p>
 <br />The CustomSearch plugin must then define which facet it wishes to obtain. When configuring the facets, you get to choose how to handle multiple selection. By default, OR filters will be used.
 </p>
 
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox51" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox52" >{CUSTOMSEARCH()}
   ...
   {facet name=object_type operator=or}
   {facet name=deep_categories operator=and}
@@ -1023,11 +1031,11 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 
 <p>Add the hidden fields to your search form as above, but using this special format for the id: <code>deep_categories_under_XXX</code> replacing the XXX with the top category id
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox52" >{input _filter=&quot;content&quot; type=&quot;hidden&quot; _field=&quot;tracker_field_types&quot; id=&quot;deep_categories_under_28&quot;}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox53" >{input _filter=&quot;content&quot; type=&quot;hidden&quot; _field=&quot;tracker_field_types&quot; id=&quot;deep_categories_under_28&quot;}
 {input _filter=&quot;content&quot; type=&quot;hidden&quot; _field=&quot;tracker_field_styles&quot;  id=&quot;deep_categories_under_42&quot;}</pre>
 <p>and then add the facet commands to your custom search page like this:
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox53" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox54" >{CUSTOMSEARCH()}
   ...
   {facet name=&quot;deep_categories_under_28&quot;}
   {facet name=&quot;deep_categories_under_42&quot;}
@@ -1049,7 +1057,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <br />You can specify the maximum number of facets returned. This defaults to 10, but can be changed globally using the "Facet result count" preference on the search results control panel, or per facet in the plugin like this:
 </p>
 
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox54" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox55" >{CUSTOMSEARCH()}
   ...
   {facet name=deep_categories operator=or count=50}
   ...
@@ -1063,7 +1071,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 
 <p>Useful for charts where you need to set the colours according to the order the facets/aggregations are returned.
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox55" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox56" >{CUSTOMSEARCH()}
   ...
   {facet name=&quot;tracker_status&quot; order=&quot;_term_asc&quot;}
   ...
@@ -1074,7 +1082,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <p><em>Since 20.1</em>
 <br />Set the min_doc_count - useful for displaying empty aggregations
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox56" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox57" >{CUSTOMSEARCH()}
   ...
   {facet name=deep_categories min=&quot;0&quot;}
   ...
@@ -1089,7 +1097,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <br />More info on date formats accepted <a class="wiki external" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/5.6/search-aggregations-bucket-daterange-aggregation.html#date-format-pattern" rel="external">here on elastic.co</a>
 </p>
 
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox57" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox58" >{CUSTOMSEARCH()}
   ...
   {facet name=&quot;date&quot; type=&quot;date_range&quot; id=&quot;date_range&quot; ranges=&quot;2018-01-01,2018-04-01,2018 Q1|2018-04-01,2018-07-01,2018 Q2|2018-07-01,2018-10-01,2018 Q3|2018-10-01,2019-01-01,2018 Q4&quot;}
   ...
@@ -1102,7 +1110,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 
 <p>
 </p>
-<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox58" >{CUSTOMSEARCH()}
+<pre class="codelisting"  data-theme="off"  data-syntax="tiki"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox59" >{CUSTOMSEARCH()}
   ...
   {facet name=&quot;date&quot; type=&quot;date_histogram&quot; id=&quot;date_histogram&quot; interval=&quot;year&quot;}
   ...
@@ -1110,12 +1118,12 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 <h3 class="showhide_heading" id="Facets_selector_tools_in_your_results_template"> Facets selector tools in your results&nbsp;template<a href="PluginCustomSearch.html#Facets_selector_tools_in_your_results_template" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h3>
 <p>Finally, you need to modify the results template. The <code>$facets</code> variable is available and contains all the facets returned by the search engine. It is important to verify that the results have been provided.
 </p>
-<div class="codecaption">Test the facets array is populated properly</div><pre class="codelisting"  data-theme="off"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox59" >{$facets|var_dump}</pre>
+<div class="codecaption">Test the facets array is populated properly</div><pre class="codelisting"  data-theme="off"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox60" >{$facets|var_dump}</pre>
 <p>
 <br />In this example, Chosen is used to render the facet elements nicely and each change to a facet causes the results to reload. The registerFacet() jQuery function binds the select element to the hidden field annotated by <code>data-for</code>.
 </p>
 
-<pre class="codelisting"  data-theme="off"  data-syntax="smarty"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox60" >&lt;div&gt;
+<pre class="codelisting"  data-theme="off"  data-syntax="smarty"  data-wrap="1"  dir="ltr"  style="white-space:pre-wrap; overflow-wrap: break-word; word-wrap: break-word;" id="codebox61" >&lt;div&gt;
     &lt;div class=&quot;facets&quot;&gt;
         {if $facets.deep_categories}
             &lt;h6&gt;{$facets.deep_categories.label|escape}&lt;/h6&gt;
@@ -1176,7 +1184,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 					<div class="wiki-authors">
 <hr>
 	Created by <a title="User:Nelson Ko" href="https://doc.tiki.org/user10116" class="userlink tips">Nelson Ko</a>.
-	Last Modification: Monday 13 July, 2020 08:15:09 GMT-0000 by <a title="User Information" href="https://doc.tiki.org/user12438" class="userlink ajaxtips" data-ajaxtips="tiki-user-info?username=adrien.maloba">Adrien</a>.
+	Last Modification: Tuesday 25 August, 2020 19:01:46 GMT-0000 by <a title="User Information" href="https://doc.tiki.org/user10241" class="userlink ajaxtips" data-ajaxtips="tiki-user-info?username=Jyhem">Jean-Marc Libs</a>.
 	
 	</div>		
 		
@@ -1235,7 +1243,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 	</div>
 <div id="comment-container"></div>
 			
-													<div class="content clearfix modules mt-3" id="pagebottom_modules">
+													<div class="modules mt-3" id="pagebottom_modules">
 	
 
 
@@ -1270,7 +1278,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 </div>
 											</div>
 					<div class="col col2 col-md-12 col-lg-3 order-sm-2 order-md-2 order-lg-1" id="col2">
-						<div class="content clearfix modules" id="left_modules">
+						<div class="modules" id="left_modules">
 	
 
 
@@ -1723,7 +1731,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 				<a class="nav-link" href="https://doc.tiki.org/Admin-Wizard">Admin Wizard</a>
 			</li>
 								<li class="nav-item ">
-				<a class="nav-link" href="https://doc.tiki.org/Upgrade-Wizard">Upgrade Wizard</a>
+				<a class="nav-link" href="https://doc.tiki.org/Changes-Wizard">Changes Wizard</a>
 			</li>
 								<li class="nav-item ">
 				<a class="nav-link" href="https://doc.tiki.org/User-Wizard---Set-up-the-User-Details-screen">User Wizard - Set up the User Details screen</a>
@@ -2571,7 +2579,6 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 
 <p></p>
 
-
 		
 														</div>
 				
@@ -2596,86 +2603,9 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 			 class="clearfix card-body">
 									<ol>					<li>
 				<a class="linkmodule"
-											href="PluginTogether.html"
+											href="Faker.html"
 										
-										title=" Mon 27 Jul, 2020 13:57 GMT-0000"
-				>
-
-																																PluginTogether
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Export-Profiles"
-										
-										title=" Sun 26 Jul, 2020 18:32 GMT-0000"
-				>
-
-																																Export Profiles
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Wiki-Argument-Variables"
-										
-										title=" Sun 26 Jul, 2020 17:43 GMT-0000"
-				>
-
-																																Wiki Argument Variables
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="PluginWebservice.html"
-										
-										title=" Sun 26 Jul, 2020 16:25 GMT-0000"
-				>
-
-																																PluginWebservice
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Pretty-Tracker"
-										
-										title=" Mon 20 Jul, 2020 04:36 GMT-0000"
-				>
-
-																																Pretty Tracker
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Webservice-tracker-field"
-										
-										title=" Thu 16 Jul, 2020 18:03 GMT-0000"
-				>
-
-																																Webservice tracker field
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Changelog-1.8"
-										
-										title=" Thu 16 Jul, 2020 17:28 GMT-0000"
-				>
-
-																																Changelog 1.8
-																		
-				</a>
-			</li>
-					<li>
-				<a class="linkmodule"
-											href="https://doc.tiki.org/Faker"
-										
-										title=" Thu 16 Jul, 2020 10:04 GMT-0000"
+										title=" Wed 16 Sep, 2020 11:22 GMT-0000"
 				>
 
 																																Faker
@@ -2684,23 +2614,100 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 			</li>
 					<li>
 				<a class="linkmodule"
-											href="https://doc.tiki.org/Ubuntu-Install"
+											href="https://doc.tiki.org/Tiki22"
 										
-										title=" Mon 13 Jul, 2020 18:42 GMT-0000"
+										title=" Sun 13 Sep, 2020 23:15 GMT-0000"
 				>
 
-																																Ubuntu Install
+																																Tiki22
 																		
 				</a>
 			</li>
 					<li>
 				<a class="linkmodule"
-											href="PluginCustomSearch.html"
+											href="https://doc.tiki.org/Unified-Index-Comparison"
 										
-										title=" Mon 13 Jul, 2020 08:15 GMT-0000"
+										title=" Sun 13 Sep, 2020 23:14 GMT-0000"
 				>
 
-																																PluginCustomSearch
+																																Unified Index Comparison
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Tiki21"
+										
+										title=" Fri 11 Sep, 2020 11:17 GMT-0000"
+				>
+
+																																Tiki21
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Requirements"
+										
+										title=" Thu 10 Sep, 2020 05:39 GMT-0000"
+				>
+
+																																Requirements
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="PluginList-with-editable-filters.html"
+										
+										title=" Sun 06 Sep, 2020 14:59 GMT-0000"
+				>
+
+																																PluginList with editable filters
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Machine-Learning"
+										
+										title=" Sat 05 Sep, 2020 16:12 GMT-0000"
+				>
+
+																																Machine Learning
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Shared-Secret"
+										
+										title=" Sat 05 Sep, 2020 16:04 GMT-0000"
+				>
+
+																																Shared Secret
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="https://doc.tiki.org/Webmail"
+										
+										title=" Sat 05 Sep, 2020 13:35 GMT-0000"
+				>
+
+																																Webmail
+																		
+				</a>
+			</li>
+					<li>
+				<a class="linkmodule"
+											href="Advanced-Wiki-Syntax-usage-examples.html"
+										
+										title=" Thu 03 Sep, 2020 11:24 GMT-0000"
+				>
+
+																																Advanced Wiki Syntax usage examples
 																		
 				</a>
 			</li>
@@ -2782,7 +2789,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 			<div class="footer_liner">
 				<div class="container container-std">
 
-					<div class="content clearfix modules bottom_modules p-3 mx--15px" id="bottom_modules">
+					<div class="modules bottom_modules p-3 mx--15px" id="bottom_modules">
 		
 
 
@@ -2831,7 +2838,7 @@ e.g. tiki-index.php?page=Serch&amp;default[tracker_field_month]={&#039;this mont
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Initial-Configuration" rel="external">Configuration</a>
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Features" rel="external">Features</a>
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Tutorials" rel="external">Tutorials</a>
-</li><li> <a class="wiki external" target="_blank" href="http://twbasics.keycontent.org" rel="external">Tiki for Smarties</a>
+</li><li> <a class="wiki external" target="_blank" href="http://twbasics.tikiforsmarties.com" rel="external">Tiki for Smarties</a>
 </li><li> <a class="wiki external" target="_blank" href="http://doc.tiki.org/Welcome-Authors" rel="external">Become an author</a>
 </li></ul></div></div><div class="col-sm-2"><div class="card">
 <h4 class="showhide_heading" id="Development"> <a class="wiki external" target="_blank" href="http://dev.tiki.org"&nbsp;rel="external">Development</a><a href="PluginCustomSearch.html#Development" class="heading-link"><span class="icon icon-link fas fa-link "   ></span></a></h4>
@@ -2946,7 +2953,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 			<div id="module_76" style=""
 				 class="module box-svnup">
 				<div id="mod-svnupbottom4">
-										<div class="cvsup">Last update from SVN (21.2vcs): Monday 27 July, 2020 09:39:36 GMT-0000- REV 76802</div>
+										<div class="cvsup">Last update from SVN (21.3vcs): Monday 14 September, 2020 17:26:23 GMT-0000- REV 77084</div>
 													
 					</div>
 </div>
@@ -2959,7 +2966,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 			<div id="module_60" style=""
 				 class="module box-loadstats">
 				<div id="mod-loadstatsbottom5">
-										<small>[ Execution time: 0.24 secs ] &nbsp; [ Memory usage: 6.04MB ] &nbsp; [ Queries: 302 in 0.10 secs ]</small>
+										<small>[ Execution time: 0.30 secs ] &nbsp; [ Memory usage: 6.03MB ] &nbsp; [ Queries: 302 in 0.16 secs ]</small>
 													
 					</div>
 </div>
@@ -2981,7 +2988,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
-				<div class="content clearfix modules d-flex flex-fill justify-content-between top_modules" id="top_modules">
+				<div class="modules d-flex flex-fill justify-content-between top_modules" id="top_modules">
 	
 
 
@@ -3038,7 +3045,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 		<form name="loginbox" class="form" id="loginbox-1" action="https://doc.tiki.org/tiki-login.php"
 				method="post" 
 						>
-		<input type="hidden" class="ticket" name="ticket" value="kSfT3XgyKKwak6FoHKLGnxeSx1E31lQ9c6aPMHQSZq8" />
+		<input type="hidden" class="ticket" name="ticket" value="fQDIfMM_lgKby2Doc7MaoPhZFqtwULbQtwGr1Dz6w6o" />
 		
 
 								<div class="user form-group row mx-0 clearfix">
@@ -3197,7 +3204,7 @@ Tiki® and TikiWiki® are registered trademarks of the <a class="wiki external" 
 <!--//--><![CDATA[//><!--
 // js 0 
 tiki_cookie_jar=new Object();
-setCookieBrowser('javascript_enabled', '1627483065000', '', new Date(1627483065000));
+setCookieBrowser('javascript_enabled', '1631795997000', '', new Date(1631795997000));
 $.lang = 'en';
 
 // JS Object to hold prefs for jq
