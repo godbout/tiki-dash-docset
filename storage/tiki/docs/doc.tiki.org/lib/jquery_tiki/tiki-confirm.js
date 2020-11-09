@@ -1,162 +1,163 @@
-/** $Id: tiki-confirm.js 71519 2019-11-18 01:37:45Z lindonb $
+/** $Id: tiki-confirm.js 77470 2020-11-03 18:54:07Z xorti $
  *
  * To facilitate popup confirmation forms and related checking of security
- * timeout for state-changing actions
+ * timeout for state-changing actions, and to capture all form inputs when ajax
+ * is used
  */
 
 /**
  * Onclick method used on form submit or anchor elements when a popup
- * confirmation form is desired and where ajax is not being used.
+ * confirmation form is desired, and to capture all form inputs when ajax
+ * is used
  *
- * - for forms, typically used for state-changing actions that cannot be
- * undone, where a confirmation is advisable.
- * - should also be used for any anchor that triggers a state-changing action
- * since requests that change the database should not be GET requests.
+ * - for non-ajax forms, typically used for state-changing actions that cannot
+ * easily be undone, where a confirmation is advisable.
+ * - for ajax forms, captures all form inputs when triggering ajax services
+ * modal with a form submission so that the inputs don't need to be added to
+ * the bootstrap_modal smarty function as parameters. In this case, it is not
+ * being used to produce a confirmation popup since the ajax function should do
+ * that
+ * - should also be used for non-ajax anchors that trigger a state-changing
+ * action since requests that change the database should not be GET requests.
+ * - not needed for ajax anchors as popup confirmations are provided through
+ * ajax and any ticket will be freshly created in the ajax popup
  * - all form inputs or anchor url parameters are converted to form inputs in
  * the popup confirmation form.
- * - the related action in the php file should be conditioned on
- * $access->checkCsrfForm() so the anti-CSRF protection can be applied. This
- * will also redirect to a confirmation form in the case that javascript is not
- * enabled.
+ * - for select elements in non-ajax forms, if only some options need to be
+ * confirmed, the confirm-popup class should be added to those option elements
+ * and the confirm text added to a data attribute called data-confirm-text
+ * for that option element
  *
- * Example in a smarty template: onclick="confirmSimple(event, '{tr}Delete
- * selected items?{/tr}', '{ticket mode=get}')"
+ * When the form or anchor action is an ajax service:
  *
- * @param event		object		Click event
- * @param title		string		Confirmation text. Default is tr('Complete
- *     this action?')
- * @param ticket	string		Security token. For anchors, in a smarty
- *     template use '{ticket mode=get}'. For forms, this parameter is normally
- *     not needed as the form includes the ticket as a hidden input, normally
- *     using the smarty function {ticket}, and the function will use that for
- *     the ticket
- * @returns {boolean}
- */
-function confirmSimple(event, title, ticket) {
-	return confirmPopup(event, false, title, ticket);
-}
-
-/**
- * Onclick method to capture all form inputs when triggering ajax services
- * modal with a form submission.
- *
- * - the formaction attribute of the submit element or the action attribute of
- * the form must be set using the bootstrap_modal smarty function
- * - for a submit button related to a select element:
+ * 	- the formaction attribute of the submit element or the action attribute
+ * of the form must be set using the bootstrap_modal smarty function
+ * 	- for a submit button related to a select element:
  * 		- the name attribute of the select element must be set to action
- * (name=action)
+ * 			(name=action)
  * 		- the select option value being submitted should be the action value
- * only (e.g., remove_users)
+ * 			only (e.g., remove_users)
  * 		- the submit element's formaction attribute value or the form's
- * action attribute value will be used for the first part of the services url,
- * ie without the action specified - eg {bootstrap_modal controller=user}
- * 		- the above requirements for a submitted select value (ie,
+ * 			action attribute value will be used for the first part of the
+ * 			services url, ie without the action specified - eg
+ * 			{bootstrap_modal controller=user}
+ * 		- the above requirements for a submitted select value (ie
  * name=action, value contains only the action, rest of url in formaction or
  * form action attribute) is necessary for ajax services to work when
  * javascript is not enabled
  *
- * @param event		object		Click event
- * @returns {boolean}
- */
-function confirmAjax(event) {
-	return confirmPopup(event, true);
-}
-
-/**
- * Utility used by the two methods above, confirmSimple() and confirmAjax()
  *
- *
- * @param event		object		Click event
- * @param ajax		boolean		whether or not this is an ajax service
  * @param title		string		Confirmation text. Default is tr('Complete
- *     this action?'). Not needed for ajax services since the service will
+ *     this action?'). Not used for ajax services since the service will
  *     provide the text
- * @param ticket	string		Security token. Usually not needed for form
- *     submissions since the function will get the token from the form inputs
+ * @param ticket	string		Security token. Usually only needed for
+ *     anchors since the function will get the token from the form inputs when
+ *     it's a form
  * @returns {boolean}
  */
-function confirmPopup(event, ajax, title, ticket) {
-	if (!event) {
+function confirmPopup(title, ticket) {
+	if (! this.event) {
 		return false;
 	}
-	$('div.popover').hide();
-	if (checkTimeout()) {
-		event.preventDefault();
-		//used when the bootstrap_modal smarty function is used with a form in order to capture all form inputs
-		if (ajax) {
-			var target = $('.modal.fade:not(.show)').first(),
-				//use action specified in formaction attribute of the clicked element first
-				formAction = $(event.currentTarget).attr('formaction') || $(event.currentTarget.form).attr('action');
-			$.post(formAction, $(event.currentTarget.form).serialize(),
-				function (data)
+	this.event.preventDefault();
+	var el = this.event.currentTarget, ajax = isAjaxRequest(el);
+	// used when the bootstrap_modal smarty function is used with a form in order to capture all form inputs
+	// no need to check timeout here since the ajax function should produce a fresh ticket
+	if (ajax && el.form) {
+		var target = $('.modal.fade:not(.show)').first(),
+			// look for action specified in formaction attribute of the clicked element first, the action
+			// attribute of the form second
+			formAction = $(el).attr('formaction') || $(el.form).attr('action');
+		$.post(formAction, $(el.form).serialize(),
+			function (data)
 			{
 				$('.modal-content', target).html(data);
 				target.modal().trigger('tiki.modal.redraw');
 			});
-			return false;
-		//this section for other submitted forms that don't use ajax
-		} else {
-			if (event.currentTarget.form) {
-				// If the submit only needs to be confirmed if certain select options are chosen, then the
-				// confirm-simple class is added to the options that should be confirmed in addition to adding
-				// the onclick method confirmSimple() to the submit element. In this case, bypass confirmation if
-				// such an option has not been selected
-				var optionConfirm = $(event.currentTarget.form).find('select > option.confirm-simple'),
-					selected = $(event.currentTarget.form).find('select > option.confirm-simple:selected');
-				// proceed if it is not a select element or it is and an option with the confirm-simple class has
-				// been selected
-				if (!optionConfirm.length || selected.length) {
-					var formId = $(event.currentTarget.form).attr('id') ? $(event.currentTarget.form).attr('id')
-							+ '-confirm-simple' : 'confirm-simple',
-						formName = $(event.currentTarget.form).attr('name') ? $(event.currentTarget.form).attr('name')
-							+ '-confirm-simple' : 'confirm-simple',
-						newForm = $('<form/>', {name : formName, id : formId,
-							action : $(event.currentTarget.form).attr('action'), method : 'post'}),
-						inputs = $(event.currentTarget.form).find('input, textarea, select > option:selected');
-					$.each(inputs, function () {
-						if (this.type !== 'submit' && (this.type !== 'checkbox' || this.checked === true)
-							&& (this.type !== 'radio' || this.checked === true))
-						{
-							var name = this.tagName === 'OPTION' ? $(this).parent('select').attr('name') : this.name;
-							newForm.append($('<input />', {type: 'hidden', name: name, value: this.value}));
+		return false;
+	//this section for non-ajax submissions
+	} else if (checkTimeout()){
+		if (el.form) {
+			// If the submit only needs to be confirmed if certain select options are chosen, then the
+			// confirm-popup class is added to the options that should be confirmed in addition to adding
+			// the onclick method confirmPopup() to the submit element. In this case, bypass confirmation if
+			// such an option has not been selected
+			var optionConfirm = $(el.form).find('select > option.confirm-popup'),
+				selected = $(el.form).find('select > option.confirm-popup:selected');
+			// proceed if there is not a select element that has options with the confirm-popup class
+			// or there is and an option with the confirm-popup class has been selected
+			if (! optionConfirm.length || selected.length) {
+				var formId = $(el.form).attr('id') ? $(el.form).attr('id')
+						+ '-confirm-popup' : 'confirm-popup',
+					formName = $(el.form).attr('name') ? $(el.form).attr('name')
+						+ '-confirm-popup' : 'confirm-popup',
+					newForm = $('<form/>', {name : formName, id : formId,
+						action : $(el.form).attr('action'), method : 'post'}),
+					inputs = $(el.form).find('input, textarea, select > option:selected');
+				$.each(inputs, function () {
+					if (this.type !== 'submit' && (this.type !== 'checkbox' || this.checked === true)
+						&& (this.type !== 'radio' || this.checked === true))
+					{
+						var name = this.tagName === 'OPTION' ? $(this).parent('select').attr('name') : this.name;
+						newForm.append($('<input />', {type: 'hidden', name: name, value: this.value}));
+					}
+				});
+				if (el.name) {
+					newForm.append($('<input />', {type: 'hidden', name: el.name,
+						value: el.value}));
+				}
+				if (selected.length) {
+					$.each(selected, function (key, item) {
+						if ($(selected[key]).data('confirm-text')) {
+							title = $(selected[key]).data('confirm-text');
+							return false;
 						}
 					});
-					if (event.currentTarget.name) {
-						newForm.append($('<input />', {type: 'hidden', name: event.currentTarget.name,
-							value: event.currentTarget.value}));
-					}
-					if (selected.length) {
-						$.each(selected, function (key, item) {
-							if ($(selected[key]).data('confirm-text')) {
-								title = $(selected[key]).data('confirm-text');
-								return false;
-							}
-						});
-					}
-					simpleConfirmForm(event.currentTarget, newForm, title, ticket).modal();
-				} else {
-					$(event.currentTarget.form).submit();
 				}
-			//if a link was clicked
-			} else if (event.currentTarget.tagName === 'A') {
-				var newForm = $('<form/>', {id : 'confirm-simple', action : event.currentTarget.pathname,
-						method : 'post'}),
-					params = event.currentTarget.search.substr(1).split('&');
-				if (params) {
-					for (var i = 0; i < params.length; i++) {
-						var parampair = params[i].split("=")
-						newForm.append($('<input />', {type: 'hidden', name: decodeURIComponent(parampair[0]),
-							value: decodeURIComponent(parampair[1])}));
-					}
-				}
-				simpleConfirmForm(event.currentTarget, newForm, title, ticket).modal();
+				simpleConfirmForm(el, newForm, title, ticket).modal();
+			//
+			} else {
+				$(el.form).submit();
 			}
+		//if a link was clicked
+		} else if (el.tagName === 'A') {
+			var newForm = $('<form/>', {id : 'confirm-popup', action : el.pathname,
+					method : 'post'}),
+				params = el.search.substr(1).split('&');
+			if (params) {
+				for (var i = 0; i < params.length; i++) {
+					var parampair = params[i].split("=")
+					newForm.append($('<input />', {type: 'hidden', name: decodeURIComponent(parampair[0]),
+						value: decodeURIComponent(parampair[1])}));
+				}
+			}
+			simpleConfirmForm(el, newForm, title, ticket).modal();
 		}
 	}
 }
 
 /**
- * Utility used by the previous function confirmPopup() to create and return
+ * Utility used by the confirmPopup() function to determine whether the url
+ * associated with the clicked element is an ajax service based on the pattern
+ * used for such urls: tiki-controller-action?query
+ */
+function isAjaxRequest(el) {
+	var path = '', regex;
+	if (jqueryTiki.sefurl) {
+		regex = new RegExp("^(tiki\-)(\\w+)(\-)(\\w+)(.*?)$");
+	} else {
+		regex = new RegExp("^tiki-ajax_services\.php?");
+	}
+	if (el.form) {
+		path = $(el).attr('formaction') || $(el.form).attr('action');
+	} else if (el.tagName === 'A') {
+		path = $(el).attr('href');
+	}
+	return regex.test(path);
+}
+
+/**
+ * Utility used by the confirmPopup() function to create and return
  * the popup form
  *
  * @param clickedElement	object		Element clicked
@@ -166,9 +167,11 @@ function confirmPopup(event, ajax, title, ticket) {
  *     the function will look for a data-confirm-text attribute before using
  *     the default tr('Complete this action?')
  * @param ticket			string		Security token
- * @returns {jQuery}
+ * @returns {object}
  */
 function simpleConfirmForm(clickedElement, newForm, title, ticket) {
+	// hide any popovers they may have contained the element that was clicked
+	$('div.popover-body:visible').parent().hide();
 	if (! title) {
 		title = $(clickedElement).data('confirm-text') ? $(clickedElement).data('confirm-text')
 			: tr('Complete this action?');
@@ -202,7 +205,7 @@ function simpleConfirmForm(clickedElement, newForm, title, ticket) {
  *  - the formaction attribute of the submit element or the action attribute of
  * the form must be set using the service smarty function
  */
-function postForm (event) {
+function postForm () {
 	event.preventDefault();
 	var formAction = $(event.currentTarget).attr('formaction') || $(event.currentTarget.form).attr('action');
 	$.post(formAction, $(event.currentTarget.form).serialize(), function (data) {});
@@ -210,51 +213,83 @@ function postForm (event) {
 }
 
 /**
- *	See checkTimeout() documentation below. Used for a form that has a
- * security ticket so that the user is warned that the ticket is timed out
- * before entering data into the form.	This may not work for forms in popups
- * (e.g., tooltips) but the checkTimeout() onclick method below will
- */
-$('form').has('input[name=ticket]').on('mousedown keydown', 'select', function() {
-	checkElement(this);
-}).on('mousedown keydown', 'input', function() {
-	checkElement(this);
-}).on('mousedown keydown', 'textarea', function() {
-	checkElement(this);
-});
-
-/**
- * Utility used in previous method so that the security timeout warning is only
- * shown the first time a form element is clicked. This is so that any contents
- * in the input element can be copied if needed before losing the data. See
- * also checkTimeout() method below.
+ * Utility that checks whether the security ticket has timed out used in
+ * function below
  *
- * @param element
  * @returns {boolean}
  */
-function checkElement (element) {
-	// don't check timeout again if already check and expired so that the warning only comes up the first time
-	// the input element is clicked
-	if ($(element).hasClass('already-warned')) {
-		return  true;
+$.fn.ticketTimeout = function() {
+	// don't check timeout again if already check and expired so that the warning
+	// only comes up the
+	// first time the input element is clicked
+	if ($(this).hasClass('already-warned')) {
+		return true;
 	} else {
-		if (! checkTimeout()) {
-			$(element).addClass('already-warned');
+		if (!checkTimeout()) {
+			event.preventDefault();
+			$(this).addClass('already-warned');
 		}
 		return true;
 	}
 }
 
 /**
- * Onclick method that generates a popup warning and stops the click event if
- * the security timeout period has elapsed.
+ * Used for a form that has a security ticket so that the user is warned that
+ * the ticket is timed out before entering data into the form. listens for any
+ * form and then checks whether the form has the ticket input before performing
+ * the check.
  *
- * This method is only needed for state-changing actions for which no
- * confirmation popup is desired since the above methods that provide
- * confirmation popups (confirmSimple() and confirmAjax()) already apply this
- * method
+ * Extended to add validation for the new confirmpassword validation
+ */
+$.fn.applyTicketTimeout = function () {
+	// forms with tickets
+	let $form = $('form');
+	$form.has('input[name=ticket]')
+		.on('mousedown keydown', 'select, input:not([type=submit]), [type=submit]:not(.no-timeout), textarea', $.fn.ticketTimeout);
+
+	if (jqueryTiki.validate && $form.find("input[name=confirmpassword]").length) {
+		$form = $form.has("input[name=confirmpassword]");
+		$form.validate({
+			submitHandler: confirmAction
+		});
+		$form.has("input[name=confirmpassword]").find("input[name=confirmpassword]").rules("add", {required: true});
+	}
+}
+
+/**
+ * Apply ticket timeout warnings to forms on regular pages (not popups or
+ * modals). See documentation for applyTicketTimeout
+ */
+$(document).ready(function () {
+	$(document).applyTicketTimeout();
+});
+
+
+/**
+ * Apply ticket timeout warnings to forms on modals.
+ */
+$(document).on('tiki.modal.redraw', '.modal.fade', $.fn.applyTicketTimeout);
+
+/**
+ * Apply ticket timeout warnings to forms on popovers. For some reason
+ * applyTicketTimeout doesn't work.
+ */
+$("[data-toggle='popover']").on('shown.bs.popover', function() {
+	// set what happens when user clicks on the button
+	$('form').has('input[name=ticket]').on('click', '[type=submit]:not(.no-timeout)', $.fn.ticketTimeout);
+	return true;
+}).on('hidden.bs.popover', function() {
+	// clear listeners
+	$('form').has('input[name=ticket]').off('click', '[type=submit]:not(.no-timeout)');
+});
+
+/**
+ * Utility method used by the confirmPopup() method and the timeout warning
+ * listeners just above that generates a popup warning and stops the click
+ * event if the security timeout period has elapsed.
  *
- * The timeout period is determined by the securityTimeout preference setting
+ * The timeout period is determined by the site_security_timeout preference
+ * setting
  *
  * @returns {boolean}
  */
@@ -265,7 +300,7 @@ function checkTimeout() {
 		event.preventDefault();
 		feedback(
 			[tr('The security ticket for this form has expired.') + ' '
-				+ tr('To apply your changes, note or copy them, reload the page, re-enter them and retry submitting.')],
+			 + tr('To apply your changes, note or copy them, reload the page, re-enter them and retry submitting.')],
 			'warning',
 			true,
 			tr('Security ticket timed out')
@@ -297,6 +332,11 @@ function confirmAction(event) {
 		var targetForm = event.currentTarget.form;
 	} else if (typeof event.target !== 'undefined' && event.target.form !== 'undefined') {
 		var targetForm = event.target.form;
+	}
+	if (jqueryTiki.validate && $(targetForm).find("input[name=confirmpassword]").length) {
+		if (! $(targetForm).valid()) {
+			return false;
+		}
 	}
 	$.ajax({
 		dataType: 'json',
@@ -330,7 +370,9 @@ function confirmAction(event) {
 							}
 						}
 					} else {
-						document.location.reload();
+						// Do not use document.location.reload() as that
+						// might resend a POST request and it will display CSRF errors
+						document.location.href = document.location.href;
 					}
 				}
 			}

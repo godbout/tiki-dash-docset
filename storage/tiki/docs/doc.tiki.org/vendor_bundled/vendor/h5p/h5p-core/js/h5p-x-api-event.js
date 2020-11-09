@@ -141,6 +141,18 @@ H5P.XAPIEvent.prototype.setObject = function (instance) {
       }
     }
   }
+  else {
+    // Content types view always expect to have a contentId when they are displayed.
+    // This is not the case if they are displayed in the editor as part of a preview.
+    // The fix is to set an empty object with definition for the xAPI event, so all
+    // the content types that rely on this does not have to handle it. This means
+    // that content types that are being previewed will send xAPI completed events,
+    // but since there are no scripts that catch these events in the editor,
+    // this is not a problem.
+    this.data.statement.object = {
+      definition: {}
+    };
+  }
 };
 
 /**
@@ -239,7 +251,7 @@ H5P.XAPIEvent.prototype.getScore = function () {
  */
 H5P.XAPIEvent.prototype.getContentXAPIId = function (instance) {
   var xAPIId;
-  if (instance.contentId && H5PIntegration && H5PIntegration.contents) {
+  if (instance.contentId && H5PIntegration && H5PIntegration.contents && H5PIntegration.contents['cid-' + instance.contentId]) {
     xAPIId =  H5PIntegration.contents['cid-' + instance.contentId].url;
     if (instance.subContentId) {
       xAPIId += '?subContentId=' +  instance.subContentId;
@@ -312,6 +324,8 @@ H5P.XAPIEvent.allowedXAPIVerbs = [
 
   // Custom verbs used for action toolbar below content
   'downloaded',
+  'copied',
+  'accessed-reuse',
   'accessed-embed',
   'accessed-copyright'
 ];

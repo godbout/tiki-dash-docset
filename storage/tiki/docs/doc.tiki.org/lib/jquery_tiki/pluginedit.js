@@ -3,7 +3,7 @@
  *
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
- * $Id: pluginedit.js 76812 2020-07-28 17:36:18Z jonnybradley $
+ * $Id: pluginedit.js 76811 2020-07-28 17:27:38Z jonnybradley $
  *
  * Handles wiki plugin edit forms
  */

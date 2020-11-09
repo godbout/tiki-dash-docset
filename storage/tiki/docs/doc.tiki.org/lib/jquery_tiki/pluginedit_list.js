@@ -3,7 +3,7 @@
  *
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
- * $Id: pluginedit_list.js 67519 2018-09-17 16:17:27Z jonnybradley $
+ * $Id: pluginedit_list.js 77279 2020-10-10 02:55:09Z jonnybradley $
  *
  * Handles list plugin GUI
  */
@@ -80,23 +80,7 @@ $(document).ready(function () {
 								return false;
 							}
 							$(".dropdown-menu", $tb).hide();
-						}),
-						$("<div>")
-							.addClass("btn-group")
-							.append(
-								$("<a>")
-									.addClass("btn btn-primary btn-sm btn-source ml-2")
-									.append(
-										$("<span>").getIcon("list"),
-										" ",
-										tr("Source")
-									)
-									.click(function () {
-										toggleGui();
-									})
-									.attr("title", tr("Toggle source mode"))
-									.attr("href", "#")
-							)
+						})
 					);
 
 				$(".dropdown-toggle", $tb).removeClass("btn-link btn-sm").addClass("btn-primary btn-sm");
@@ -112,41 +96,27 @@ $(document).ready(function () {
 				.appendTo(gui.$editor);
 
 			var toggleGui = function () {
-				var $btn = gui.$editor.find(".btn-source");
 				if ($textarea.is(":visible")) {
 					showGui();
-
-					$btn.empty().append($("<span>").getIcon("list"), tr("Source"));
-
-					$(".dropdown-toggle", gui.$editor)
-						.removeClass("disabled")
-						.css("opacity", 1);
 				} else {
 
 					gui.saveToTextarea();
 
 					// show the label column
-					$textarea.parents(".row")
-						.find("> label").show()
-						.parent().find("> .col-sm-12").removeClass("col-sm-12").addClass("col-sm-9");
-
-					$textarea.show();
-					$ul.hide();
-
-					$btn.empty().append($("<span>").getIcon("mouse-pointer"), tr("GUI"));
-
-					$(".dropdown-toggle", gui.$editor)
-						.addClass("disabled")
-						.css("opacity", 0.3);
+					$("#source-tab").tab("show")
 				}
 			};
 
 			var showGui = function () {
+				let $form = $textarea.parents("form");
+
+				$form.tikiModal(tr("Loading..."));
+
 				$textarea
 					.parents(".row")
 					.find("> label").hide()			// hide the label column
 					.parent().find("> .col-sm-9").removeClass("col-sm-9").addClass("col-sm-12")
-					.tikiModal(tr("Loading..."));
+					.find(".description").hide();	// hide the body description
 
 				$.getJSON(
 					$.service("plugin", "list_edit"),
@@ -156,7 +126,6 @@ $(document).ready(function () {
 					function (data) {
 						try {
 							if (data) {
-								$textarea.hide();
 								$ul.empty().show();
 								$(".gui-only", $toolbar)
 									.prop("disabled", false)
@@ -185,16 +154,18 @@ $(document).ready(function () {
 								}
 
 								$toolbar.replaceWith(buildMainToolbar()).applyChosen();
-								$textarea.tikiModal();
+
+								$form.find(".nav-tabs li:first-child a").tab("show");
+								$form.tikiModal();
 							}
 						}
 						catch (e) {
 							console.error(e);
 							$ul.empty().hide();
 							$toolbar.hide();
-							$textarea
-								.tikiModal()
-								.show()
+							$form.tikiModal()
+							$("#source-tab").tabs("show")
+								.find($textarea)
 								.showError(tr("List plugin syntax is currently not compatible with the GUI, so source editing only is available."));
 						}
 					}
@@ -204,9 +175,56 @@ $(document).ready(function () {
 
 			$ul.nestedSortable(gui.sortableOptions);
 
-			$textarea
-				.before(gui.$editor)
-				.parents("form:first")
+			let $tabs = $("<ul>").addClass("nav nav-tabs")
+				.append(
+					$("<li>").addClass("nav-item")
+						.append($("<a>").addClass("nav-link")
+							.attr("id", "editor-tab").attr("href", "#editor").text(tr("Editor"))
+							.on("click", function (e) {
+								e.preventDefault();
+								showGui();
+							})),
+					$("<li>").addClass("nav-item")
+						.append($("<a>").addClass("nav-link")
+							.attr("id", "source-tab").attr("href", "#source").text(tr("Source"))
+							.on("click", function (e) {
+								e.preventDefault();
+								gui.saveToTextarea();
+								$(this).tab('show');
+							})),
+					$("<li>").addClass("nav-item")
+						.append($("<a>").addClass("nav-link")
+							.attr("id", "params-tab").attr("href", "#params").text(tr("Parameters"))
+							.on("click", function (e) {
+								e.preventDefault();
+								$("#editor").find(".done").removeClass("done");
+								$(this).tab('show');
+							}))
+				);
+
+
+			let $form = $textarea.parents("form");
+			let $params = $(".form-group:not(:last)", $form).detach();
+			let $tabContent = $("<div>").addClass("tab-content")
+				.append(
+					$("<div>").attr("id", "editor").addClass("tab-pane mt-2")
+						.append(gui.$editor),
+					$("<div>").attr("id", "source").addClass("tab-pane mt-2")
+						.append(
+							$textarea.detach()
+						),
+					$("<div>").attr("id", "params").addClass("tab-pane mt-2")
+						.append(
+							$params.detach()
+						)
+				);
+
+
+			$form
+				.append(
+					$tabs,
+					$tabContent
+				)
 				.submit(function () {
 					return $textarea.is(":visible") || gui.saveToTextarea();
 				});
@@ -231,10 +249,6 @@ $(document).ready(function () {
 							pluginName = $plugin.data("name"),
 							params = {};
 
-						if ($plugin.is(".done")) {
-							return plugins;
-						}
-
 						$plugin.find("> .params .input-group").each(function () {
 							var $param = $(this),
 								paramName = $param.find(".param-name > span").text();
@@ -242,7 +256,13 @@ $(document).ready(function () {
 							params[paramName] = $param.find("> select, > input").val();
 						});
 
-						$plugin.addClass("done");
+						if ($plugin.is(".done")) {
+							return plugins;
+						}
+
+						if (parentPluginName) {
+							$plugin.addClass("done");
+						}
 
 						if (pluginName === "wiki text") {
 							body = $plugin.find("textarea").val();
@@ -300,7 +320,7 @@ $(document).ready(function () {
 				markup += getSyntax(currentPlugins[i]);
 			}
 
-			this.$editor.parent().find("textarea[name=content]").val(markup);
+			this.$editor.parents("form").find("textarea[name=content]").val(markup);
 
 			return true;
 		},
@@ -343,11 +363,11 @@ $(document).ready(function () {
 			}
 
 			var $li = $("<li>")
-				.addClass("plugin inline-form card")
+				.addClass("plugin inline-form card mb-3")
 				.data("name", pluginName)
 				.append(
 					$("<div>")
-						.addClass("card-header d-flex justify-content-between mb-3")
+						.addClass("card-header d-flex justify-content-between")
 						.append(
 							$("<div>")
 								.addClass("d-flex")
@@ -367,7 +387,7 @@ $(document).ready(function () {
 				$li.addClass("no-nesting");
 			} else {
 				$li.find(".card-header > div:first").append(
-					$("<div>").addClass("btn-toolbar").append(
+					$("<div>").addClass("btn-toolbar ml-5").append(
 						gui.buildToolBar(gui.plugins, pluginName, "", function () {
 							if ($(this).data("plugin")) {
 								var params = [];
