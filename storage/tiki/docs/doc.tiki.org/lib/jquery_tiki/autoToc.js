@@ -3,7 +3,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
  *
- * $Id: autoToc.js 75489 2020-02-05 00:39:17Z pom2ter $
+ * $Id: autoToc.js 75490 2020-02-05 00:45:35Z pom2ter $
  *
  * Rewritten for bootstrap tiki 15.x 2015-2016
  * Based on work by Jobi Carter keacarterdev@gmail.com

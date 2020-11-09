@@ -2,9 +2,9 @@
 //
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-// $Id: fullcalendar_to_pdf.js 75185 2019-12-14 17:37:21Z xorti $
+// $Id: fullcalendar_to_pdf.js 77359 2020-10-21 17:27:36Z xorti $
 
-function  addFullCalendarPrint(calendarId, buttonId){
+function  addFullCalendarPrint(calendarId, buttonId, calendar){
 	let viewContainer = $(calendarId);
 	if(!viewContainer){
 		console.warn(calendarId+" not found");
@@ -16,16 +16,16 @@ function  addFullCalendarPrint(calendarId, buttonId){
 	$(buttonId).off('click');
 	$(buttonId).click(function (event) {
 		event.preventDefault();
-		var elementToPrint = $(calendarId+' > .fc-view-container');
+		var elementToPrint = $(calendarId + ' .fc-view');
 		$("html, body").animate({ scrollTop: 0 }, 0);
 		setTimeout(function() {
 			html2canvas(elementToPrint[0], {
 				"scrollY": 0,
 				"scrollX": 0
 			}).then(function(canvas) {
-				var moment = $(calendarId).fullCalendar('getDate');
-				var monthName = moment.format("MMMM");
-				var year = moment.format("YYYY");
+				var date = moment(calendar.getDate());
+				var monthName = date.format("MMMM");
+				var year = date.format("YYYY")
 				var imgData = canvas.toDataURL("image/jpeg", 1.0);
 				var imgWidth = 180;
 				var pageHeight = 250;

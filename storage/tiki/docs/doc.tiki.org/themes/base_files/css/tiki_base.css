@@ -1,6 +1,6 @@
-/* $Id: tiki_base.css 77056 2020-09-03 22:10:56Z lindonb $
- This Tiki Wiki CMS Groupware file contains global design
- and layout properties. */
+/* $Id: tiki_base.css 77324 2020-10-16 10:19:22Z jonnybradley $
+	This Tiki Wiki CMS Groupware file contains global design
+	and layout properties. */
 .topbar {
   margin-bottom: 1.4rem; }
 
@@ -529,7 +529,7 @@ body.wikitext {
 .admintoclevel .actions input {
   border: solid 1px #adb5bd; }
 
-.TextArea-fullscreen, .CodeMirror-fullscreen, .TextArea-fullscreen .edit-zone-footer, .CodeMirror-fullscreen .edit-zone-footer {
+.TextArea-fullscreen, .TextArea-fullscreen .edit-zone-footer, .CodeMirror-fullscreen, .CodeMirror-fullscreen .edit-zone-footer {
   background-color: #fff; }
 
 .TextArea-fullscreen .actions, .CodeMirror-fullscreen .actions {
@@ -887,7 +887,7 @@ input[type="checkbox"].preffilter-toggle-round:checked + label:before {
   .navbar-nav {
     padding: 0 15px;
     margin: 15px 0; }
-    .tiki-view_tracker .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-admin_tracker_fields .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-lastchanges .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-admin_survey_questions .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-assignuser .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki_user_messages .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-view_banner .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-view_tracker .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-admin_tracker_fields .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-lastchanges .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-admin_survey_questions .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-assignuser .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki_user_messages .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-view_banner .t_navbar.btn-group > .btn:not(.dropdown-toggle) {
+    .tiki-view_tracker .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-view_tracker .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-admin_tracker_fields .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-admin_tracker_fields .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-lastchanges .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-lastchanges .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-admin_survey_questions .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-admin_survey_questions .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-assignuser .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-assignuser .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki_user_messages .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki_user_messages .t_navbar.btn-group > .btn:not(.dropdown-toggle), .tiki-view_banner .t_navbar .btn-group > .btn:not(.dropdown-toggle), .tiki-view_banner .t_navbar.btn-group > .btn:not(.dropdown-toggle) {
       margin-right: 5px;
       margin-bottom: 5px;
       border-radius: 0.25rem; }
@@ -1299,12 +1299,12 @@ div.categbar {
   display: block; }
 
 .uol ol:not(.media-list) > li:before {
-  content: counters(item, ".") ".\0000a0";
+  content: counters(item, ".") ". ";
   counter-increment: item;
   margin-left: -3rem; }
 
 .uol ol:not(.media-list) > li ol > li:before {
-  content: counters(item, ".") "\0000a0";
+  content: counters(item, ".") " ";
   counter-increment: item; }
 
 .nouol ol > li {
@@ -1421,6 +1421,13 @@ li.archivedate {
 
 #col2 .box-search .btn-group .btn, #col3 .box-search .btn-group .btn {
   font-size: 0.6rem; }
+
+.box-search .search_mod_buttons {
+  display: none;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+  white-space: nowrap; }
 
 #col2 .module, #col3 .module, #pagetop_modules .module {
   margin-bottom: 1.25rem; }
@@ -1574,7 +1581,7 @@ div.cvsup {
   margin-top: 0.5416666667rem;
   padding-top: 4px;
   padding-bottom: 4px; }
-.navbar-fixed-top .btn, .layout_social .topbar_modules .btn, .navbar-fixed-top .btn-link, .layout_social .topbar_modules .btn-link {
+.navbar-fixed-top .btn, .navbar-fixed-top .btn-link, .layout_social .topbar_modules .btn, .layout_social .topbar_modules .btn-link {
   margin-top: 0.4642857143rem; }
 
 .navbar-fixed-top .navbar, #navbar-collapse-social .navbar {
@@ -1788,7 +1795,7 @@ td.numeric {
   padding-right: 1px; }
 
 /* Chrome & safari do not break urls or filenames at all. This causes
- serious display issues within tables with long urls/filenames. */
+	serious display issues within tables with long urls/filenames. */
 td.url {
   word-break: break-all; }
 
@@ -2108,12 +2115,12 @@ body.tiki_forums .normal {
   margin-bottom: 15px; }
 
 .filter-panel-heading a:after {
-  content: "\2212";
+  content: "−";
   float: left;
   margin-right: 15px; }
 
 .filter-panel-heading a.collapsed:after {
-  content: "\2b"; }
+  content: "+"; }
 
 #comment-container {
   display: none;
@@ -2478,19 +2485,19 @@ table.treetable tr.expanded span.indenter a {
   background-image: none; }
 
 .chosen-container .chosen-results li.result-selected.tracker-status-open:before, .chosen-container .chosen-results li.result-selected.tracker-status-o:before, .tracker-status-open:before, .tracker-status-o:before {
-  content: "\f111";
+  content: "";
   color: green;
   font-weight: 900;
   background-image: none; }
 
 .chosen-container .chosen-results li.result-selected.tracker-status-pending:before, .chosen-container .chosen-results li.result-selected.tracker-status-p:before, .tracker-status-pending:before, .tracker-status-p:before {
-  content: "\f042";
+  content: "";
   color: orange;
   font-weight: 900;
   background-image: none; }
 
 .chosen-container .chosen-results li.result-selected.tracker-status-closed:before, .chosen-container .chosen-results li.result-selected.tracker-status-c:before, .tracker-status-closed:before, .tracker-status-c:before {
-  content: "\f057";
+  content: "";
   color: grey;
   font-weight: 400;
   background-image: none; }
@@ -3853,7 +3860,7 @@ body.fullscreen.tiki.navbar-padding {
 
 .tiki .table-responsive > .table {
   margin-bottom: 0; }
-  .tiki .table-responsive > .table > thead > tr > th, .tiki .table-responsive > .table > tbody > tr > th, .tiki .table-responsive > .table > tfoot > tr > th, .tiki .table-responsive > .table > thead > tr > td, .tiki .table-responsive > .table > tbody > tr > td, .tiki .table-responsive > .table > tfoot > tr > td {
+  .tiki .table-responsive > .table > thead > tr > th, .tiki .table-responsive > .table > thead > tr > td, .tiki .table-responsive > .table > tbody > tr > th, .tiki .table-responsive > .table > tbody > tr > td, .tiki .table-responsive > .table > tfoot > tr > th, .tiki .table-responsive > .table > tfoot > tr > td {
     white-space: normal; }
 
 .tiki .table-responsive > .table td.action {
@@ -3867,9 +3874,9 @@ body.fullscreen.tiki.navbar-padding {
   margin-bottom: 0; }
 .layout_social h2.sitesubtitle, .layout_social_modules h2.sitesubtitle {
   font-size: 1.2rem; }
-.layout_social h1.sitetitle, .layout_social_modules h1.sitetitle, .layout_social h2.sitesubtitle, .layout_social_modules h2.sitesubtitle {
+.layout_social h1.sitetitle, .layout_social h2.sitesubtitle, .layout_social_modules h1.sitetitle, .layout_social_modules h2.sitesubtitle {
   display: inline-block; }
-.layout_social .sitetitle, .layout_social_modules .sitetitle, .layout_social .sitesubtitle, .layout_social_modules .sitesubtitle {
+.layout_social .sitetitle, .layout_social .sitesubtitle, .layout_social_modules .sitetitle, .layout_social_modules .sitesubtitle {
   margin-right: 1rem; }
 .layout_social #topbar_modules, .layout_social_modules #topbar_modules {
   display: inline-block; }
@@ -4903,8 +4910,17 @@ div.drillshow {
 .plugin-list-editor li.plugin {
   list-style: none;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
-  padding: 4px 8px; }
+  border-radius: 0.25rem; }
+
+.plugin-list-editor li.plugin .params {
+  padding: 0.5rem 0.5rem 0; }
+
+.plugin-list-editor li.plugin .card-header {
+  padding: 0.25rem 1.5rem; }
+
+.plugin-list-editor > .btn-toolbar {
+  margin-bottom: 0.5rem;
+  color: #fff; }
 
 .plugin-list-editor li.plugin .name {
   font-weight: bold; }

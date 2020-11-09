@@ -1,10 +1,34 @@
 /* global $ */
 
-// $Id: tiki-jquery.js 77079 2020-09-10 17:50:45Z jonnybradley $
+// $Id: tiki-jquery.js 77282 2020-10-10 02:55:09Z jonnybradley $
 // JavaScript glue for jQuery in Tiki
 //
 // Tiki 6 - $ is now initialised in jquery.js
 // but let's keep $jq available too for legacy custom code
+
+var legacyLoad = jQuery.fn.load;
+jQuery.fn.load = function (url, _data, _complete) {
+	var element = this;
+	element.show();
+
+	element.tikiModal(tr('Loading...'));
+	if (typeof _data === "function") {
+		_complete = _data;
+		_data = "";
+	}
+	var complete = function (responseText, textStatus, jqXHR) {
+		element.tikiModal();
+		if (textStatus === 'error') {
+			element.html('<div class="alert alert-danger alert-dismissible" role="alert">'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+				+ '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>'
+				+ 'Error loading content.</div>');
+			return;
+		}
+		_complete.call(this, responseText, textStatus, jqXHR)
+	};
+	return legacyLoad.call(this, url, _data, complete);
+}
 
 var $jq = $,
 	$window = $(window),
@@ -616,31 +640,6 @@ $(function() { // JQuery's DOM is ready event - before onload
 				return $("#cb_swf_player");
 			}
 		});
-
-		// data-box attributes containing type=video
-		$(this).find("#col1 a[data-box*='box'][data-box*='type=video']").colorbox({
-			iframe: true,
-			fastIframe: false,
-			height:"90%",
-			width:"90%",
-			html: function() {
-				return '<video controls autoplay>' +
-					'<source src="' + $(this).attr('href') + '">' +
-					+ 'Your browser does not support the video tag.' +
-					'</video>';
-			},
-			onComplete : function() {
-				let video = $('#colorbox iframe').contents().find('video');
-
-				setTimeout(function() {
-					$(this).colorbox.resize({
-						innerHeight : video.height() + 'px',
-						innerWidth : video.width() + 'px'
-					});
-				}, 100);
-			}
-		});
-
 		// data-box attributes with type=iframe (if someone needs to override anything above)
 		$(this).find("#col1 a[data-box*='box'][data-box*='type=iframe']").colorbox({
 			iframe: true
@@ -1202,11 +1201,12 @@ $.fn.tiki = function(func, type, options, excludepage) {
 				opts = { allow_single_deselect: true, search_contains: true };		// allow_single_deselect happens if first item is empty
 				if ($("html").attr("dir") === "rtl") {
 					$(this).addClass("chosen-rtl");
+					opts.rtl = true;
 				}
-				$.map({		// translate the strings
-					placeholder_text_multiple: "Select Some Options",
-					placeholder_text_single: "Select an Option",
-					no_results_text: "No results match"
+				$.map({
+					placeholder_text_multiple: tr("Select Some Options"),
+					placeholder_text_single: tr("Select an Option"),
+					no_results_text: tr("No results match")
 				}, function (v, k) {
 					opts[k] = tr(v);
 				});
@@ -2199,13 +2199,15 @@ $.fn.tiki = function(func, type, options, excludepage) {
 	// sort result containing all galleries
 	function sortResult(result) {
 		result.sort(function(a, b) {
-			var titleA = a.parent_title.toUpperCase(); // ignore upper and lowercase
-			var titleB = b.parent_title.toUpperCase(); // ignore upper and lowercase
-			if (titleA < titleB) {
-				return -1;
-			}
-			if (titleA > titleB) {
-				return 1;
+			if (a.parent_title) {
+				var titleA = a.parent_title.toUpperCase(); // ignore upper and lowercase
+				var titleB = b.parent_title.toUpperCase(); // ignore upper and lowercase
+				if (titleA < titleB) {
+					return -1;
+				}
+				if (titleA > titleB) {
+					return 1;
+				}
 			}
 
 			// names must be equal
@@ -2218,7 +2220,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 	function parentTitle(result, parent) {
 		var title='';
 		$.each(result, function(key, value) {
-			if(value.object_id == parent){
+			if(value.object_id === parent){
 				title= value.title + ' > ';
 			}
 		});
@@ -2269,7 +2271,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 		$('<option>')
 			.val(item)
 			.data('label', title)
-			.text(parent_title + '' + title.replace(/\n/g, " / "))  //replace newline with a slash since it's in a select
+			.text((typeof parent_title === 'undefined' || parent_title === null ) ? title.replace(/\n/g, " / ") : parent_title + '' + title.replace(/\n/g, " / "))  //replace newline with a slash since it's in a select
 			.prop('selected', selected)
 			.appendTo($select);
 
@@ -2310,7 +2312,9 @@ $.fn.tiki = function(func, type, options, excludepage) {
 
 		// add all galleries parent titles
 		$.each(result, function (key, value) {
-			value.parent_title = parentTitle(result, value.parent_id);
+			if (value.parent_id) {
+				value.parent_title = parentTitle(result, value.parent_id);
+			}
 			result[key] = value;
 		});
 
@@ -2321,12 +2325,12 @@ $.fn.tiki = function(func, type, options, excludepage) {
 			var current = value.object_type + ':' + value.object_id;
 			var selected = false;
 
-			if (value.object_id == '') {
+			if (value.object_id === '') {
 				current = value.object_type;
 			}
 
 			var currentValue = $select.data('current-value');
-			if (currentValue == current) {
+			if (currentValue === current) {
 				selected = true;
 			}
 
@@ -2468,7 +2472,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 			});
 
 			$search.click(function () {
-				$spinner = $filter.parent().tikiModal(" ");
+				$spinner = $container.tikiModal(" ");
 				var selectorArgs = {format: format, sort_order: sort};
 				if ($(input).data('use-threshold') && threshold !== -1) {
 					selectorArgs.maxRecords = threshold;
@@ -2540,7 +2544,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 					$container.tikiModal('');
 					var results = data.resultset.result;
 					if (extratype) {
-						var objectIndex = data.resultset.count;
+						var objectIndex = results.length;
 						$.each(extratype, function(key, value) {
 							results[objectIndex] = {"object_type": key, "object_id": "", "title": value};
 							objectIndex++;
@@ -2568,7 +2572,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 			});
 
 			$search.click(function () {
-				var $spinner = $filter.parent().tikiModal(" ");
+				var $spinner = $container.tikiModal(" ");
 				var selectorArgs = {format: format, sort_order: sort};
 				if ($textarea.data('use-threshold') && threshold !== -1) {
 					selectorArgs.maxRecords = threshold;
@@ -2770,6 +2774,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 		$(".modal.fade.show").modal("hide");
 		var message;
 		if (!thrownError && jqxhr.status !== 200) {
+			$('.tiki-modal').hide();
 			if (jqxhr.status) {
 				message = jqxhr.status + " " + jqxhr.statusText;
 			} else {
@@ -2864,7 +2869,7 @@ $.fn.tiki = function(func, type, options, excludepage) {
 		// action column
 		if (table.find('table').width() - 5 > table.width()) {
 			if (screen.width > 767) {
-				if (table.find('table td.action').length) {
+				if ($('table tr td:last-child').hasClass('action')) {
 					table.find('table td.action').each(function () {
 						$(this).parent().prepend($(this).clone());
 					});
@@ -3842,7 +3847,7 @@ $.openModal = function (options) {
 	} else {
 		href += '&modal=1';
 	}
-
+	var $spinner = $("#bootstrap-modal").tikiModal(tr('Loading...'))
 	// START BOOTSTRAP 4 CHANGE
 	$('.modal.fade:not(.show):first')
 		// Bind a single event to trigger as soon as the form appears
@@ -3850,7 +3855,7 @@ $.openModal = function (options) {
 		// Make the form load
 		.find(".modal-content")
 		.load(href, function () {
-
+			$spinner.tikiModal()
 			var $modal = $(this).parents(".modal");
 
 			$modal.modal(options);

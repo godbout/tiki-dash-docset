@@ -169,7 +169,8 @@
 						});
 					}
 				})
-				.error(function () {
+				.error(function (jqxhr) {
+					$(container).showError(jqxhr);
 					$(container).addClass('failure');
 				})
 				;

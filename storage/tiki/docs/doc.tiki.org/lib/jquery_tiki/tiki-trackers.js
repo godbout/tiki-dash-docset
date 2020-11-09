@@ -1,8 +1,8 @@
 // (c) Copyright by authors of the Tiki Wiki CMS Groupware Project
-// 
+//
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-// $Id: tiki-trackers.js 77023 2020-08-31 14:20:03Z kroky6 $
+// $Id: tiki-trackers.js 77208 2020-10-01 02:06:37Z jonnybradley $
 (function ($) {
 
 	$.fn = $.extend($.fn, {
@@ -93,12 +93,14 @@
 			return this;
 		},
 		tracker_load_fields: function (trackerId) {
+			var element = this;
 			this.each(function () {
 				var $container = $(this).empty();
-
+				element.tikiModal(tr('Loading...'));
 				$.getJSON($.service('tracker', 'list_fields'), {
 					trackerId: trackerId
 				}, function (data) {
+					element.tikiModal();
 					$.each(data.fields, function (k, field) {
 						var $row = $('<tr/>').addClass("tracker-field-" + field.type);
 						$row.append($('<td class="checkbox-cell"/>').append($('<input type="checkbox" name="fields[]"/>').val(field.fieldId)));
@@ -110,12 +112,8 @@
 							.append($('<div class="small">').text(field.permName))
 							.prepend($('<a/>')
 								.text(field.name == null?" ":field.name)
-								.attr('href', $.service('tracker', 'edit_field', {trackerId: trackerId, fieldId: field.fieldId}))
+								.attr('href', $.service('tracker', 'edit_field', {trackerId: trackerId, fieldId: field.fieldId, modal: 1}))
 								.clickModal({
-									remote: $.service('controller', 'edit_field', {
-										trackerId: trackerId,
-										fieldId: field.fieldId
-									}),
 									success: function () {
 										$container.tracker_load_fields(trackerId);
 										$.closeModal();
@@ -128,10 +126,10 @@
 								$row.find('td:last').append($('<div class="small">').text(tr('Mirror field')+': '+field.options_map.mirrorField));
 							}
 
-							var addCheckbox = function (name, title) {
+							var addCheckbox = function (name, title, disabled = false) {
 								$row.append($('<td class="checkbox-cell"/>').append(
 									$('<input type="checkbox" name="field~' + field.fieldId + '~' + name + '" value="1" title="' + title + '"/>')
-										.prop('checked', field[name] === 'y')
+										.prop('checked', field[name] === 'y').prop('disabled', disabled === true)
 								));
 							};
 
@@ -167,7 +165,7 @@
 
 							addCheckbox('isTblVisible', tr('List'));
 							addCheckbox('isMain', tr('Main'));
-							addCheckbox('isSearchable', tr('Searchable'));
+							addCheckbox('isSearchable', tr('Searchable'), $.inArray(field.type, ['h']) !== -1);
 							addCheckbox('isPublic', tr('Public'));
 							addCheckbox('isMandatory', tr('Mandatory'));
 
@@ -517,6 +515,16 @@
 	});
 	$(document).on('mouseleave', '.currency_output', function(){
 	  $('.'+$(this).attr('id')).addClass('d-none');
+	});
+
+	$(document).on('hidden.bs.modal', function (event) {
+		if (m = window.location.href.match(/item(\d+)|itemId=(\d+)/)) {
+			var itemId = m[1] || m[2];
+			$.getJSON($.service("semaphore", "unset"), {
+				object_id: itemId,
+				object_type: 'trackeritem'
+			});
+		}
 	});
 
 }(jQuery));
