@@ -105,13 +105,15 @@ class Tiki extends BaseDocset
         if (preg_match('/Plugin/i', $file)) {
             $path = $crawler->filter('link[rel=canonical]')->attr('href');
 
-            $crawler->filter('#page-data > h1:first-of-type')->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
-                $entries->push([
+            $crawler
+                ->filter('#page-data > h1:first-of-type')
+                ->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
+                    $entries->push([
                         'name' => $node->text(),
                         'type' => 'Plugin',
                         'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
                     ]);
-            });
+                });
         }
 
         return $entries;
@@ -124,13 +126,15 @@ class Tiki extends BaseDocset
         if (preg_match('/Module/i', $file)) {
             $path = $crawler->filter('link[rel=canonical]')->attr('href');
 
-            $crawler->filter('#page-data > h1:first-of-type')->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
-                $entries->push([
-                        'name' => $node->text(),
-                        'type' => 'Module',
-                        'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
-                    ]);
-            });
+            $crawler
+                ->filter('#page-data > h1:first-of-type')
+                ->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
+                    $entries->push([
+                            'name' => $node->text(),
+                            'type' => 'Module',
+                            'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
+                        ]);
+                });
         }
 
         return $entries;
@@ -143,13 +147,15 @@ class Tiki extends BaseDocset
         if (preg_match('/Tracker-Field/i', $file)) {
             $path = $crawler->filter('link[rel=canonical]')->attr('href');
 
-            $crawler->filter('#page-data > h1:first-of-type')->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
-                $entries->push([
-                        'name' => $node->text(),
-                        'type' => 'Field',
-                        'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
-                    ]);
-            });
+            $crawler
+                ->filter('#page-data > h1:first-of-type')
+                ->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
+                    $entries->push([
+                            'name' => $node->text(),
+                            'type' => 'Field',
+                            'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
+                        ]);
+                });
         }
 
         return $entries;
@@ -162,13 +168,15 @@ class Tiki extends BaseDocset
         if (preg_match('/Wiki-Syntax/i', $file)) {
             $path = $crawler->filter('link[rel=canonical]')->attr('href');
 
-            $crawler->filter('#page-data > h1:first-of-type')->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
-                $entries->push([
-                        'name' => $node->text(),
-                        'type' => 'Style',
-                        'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
-                    ]);
-            });
+            $crawler
+                ->filter('#page-data > h1:first-of-type')
+                ->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
+                    $entries->push([
+                            'name' => $node->text(),
+                            'type' => 'Style',
+                            'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
+                        ]);
+                });
         }
 
         return $entries;
@@ -181,13 +189,15 @@ class Tiki extends BaseDocset
         if (preg_match('/(Faker|TableSorter)/i', $file)) {
             $path = $crawler->filter('link[rel=canonical]')->attr('href');
 
-            $crawler->filter('#page-data > h1:first-of-type')->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
-                $entries->push([
-                        'name' => $node->text(),
-                        'type' => 'Component',
-                        'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
-                    ]);
-            });
+            $crawler
+                ->filter('#page-data > h1:first-of-type')
+                ->each(function (HtmlPageCrawler $node) use ($entries, $file, $path) {
+                    $entries->push([
+                            'name' => $node->text(),
+                            'type' => 'Component',
+                            'path' => Str::after($file . '#' . Str::slug($path), $this->innerDirectory()),
+                        ]);
+                });
         }
 
         return $entries;
