@@ -1,4 +1,4 @@
-Tiki_org_family_headers_fix_CSS
+
 
 .keep_this_line_here_for_now_to_prevent_the_page_title_to_be_interpreted_as_a_CSS_selector_till_fixed,
 
@@ -23,8 +23,4 @@ body.tiki.navbar-padding, .layout_fixed_top_modules, .layout_social_modules {
 
 /* END of Move this into the fivealive-lite theme CSS */
 
-	
-
-[hidden] {
-    display: block !important; 
-}
+    
