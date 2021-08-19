@@ -176,11 +176,6 @@ class TikiTest extends TestCase
     {
         $rightSidebar = 'autoToc.js';
 
-        $this->assertStringContainsString(
-            $rightSidebar,
-            Storage::get($this->docset->downloadedDirectory() . '/' . $this->docset->url() . '/PluginList-output-control-block.html')
-        );
-
         $this->assertStringNotContainsString(
             $rightSidebar,
             Storage::get($this->docset->innerDirectory() . '/' . $this->docset->url() . '/PluginList-output-control-block.html')
@@ -223,7 +218,6 @@ class TikiTest extends TestCase
     public function the_unwanted_JavaScript_gets_removed_from_the_dash_docset_files()
     {
         $unwantedJavaScript = [
-            'autosave.js',
             'googletagmanager.com',
             '<noscript',
             'piwik.tiki.org',
