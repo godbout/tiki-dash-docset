@@ -3,7 +3,7 @@
 .keep_this_line_here_for_now_to_prevent_the_page_title_to_be_interpreted_as_a_CSS_selector_till_fixed,
 
 
-/*****
+Copy to clipboard/*****
 * TO REQUEST THIS CODE AS CSS FILE TYPE USE: tiki-index_raw.php?page=Tiki_org_family_headers_fix_CSS&clean&textonly&download&css
 * Example: <link rel="stylesheet" href="https://themes.tiki.org/tiki-index_raw.php?page=Tiki_org_family_headers_fix_CSS&clean&textonly&download&css" type="text/css"> or @import url("https://themes.tiki.org/tiki-index_raw.php?page=Tiki_org_family_headers_fix_CSS&clean&textonly&download&css");
 *****/
@@ -23,4 +23,3 @@ body.tiki.navbar-padding, .layout_fixed_top_modules, .layout_social_modules {
 
 /* END of Move this into the fivealive-lite theme CSS */
 
-    
