@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "^7.3 || ^8.0",
-        "godbout/dash-docset-builder": "^2.0"
+        "godbout/dash-docset-builder": "^3.0"
     },
     "autoload": {
         "psr-4": {
