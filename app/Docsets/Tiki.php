@@ -144,7 +144,7 @@ class Tiki extends BaseDocset
     {
         $entries = collect();
 
-        if (preg_match('/Tracker-Field/i', $file)) {
+        if (preg_match('/^(?!.*(\?)).*Tracker-Field/i', $file)) {
             $path = $crawler->filter('link[rel=canonical]')->attr('href');
 
             $crawler
